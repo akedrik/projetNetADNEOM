@@ -7,7 +7,7 @@ namespace NetCoreApp.Core.Interfaces.Repositories
     public interface IAsyncRepository<T> where T : BaseEntity
     {
         Task<T> GetByIdAsync(int id);
-        Task<IReadOnlyList<T>> ListAllAsync();
+        Task<IEnumerable<T>> ListAllAsync();
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
