@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
-namespace NetCoreApp.Core.Interfaces
+namespace NetCoreApp.Core.Interfaces.Repositories
 {
     public interface ISpecification<T>
     {

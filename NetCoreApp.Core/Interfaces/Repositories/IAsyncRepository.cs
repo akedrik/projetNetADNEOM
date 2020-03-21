@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NetCoreApp.Core.Interfaces
+namespace NetCoreApp.Core.Interfaces.Repositories
 {
     public interface IAsyncRepository<T> where T : BaseEntity
     {

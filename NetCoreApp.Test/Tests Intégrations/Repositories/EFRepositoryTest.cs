@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces;
+using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Infrastructure.Data;
-using System;
+using NetCoreApp.Infrastructure.Data.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,7 +21,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
         public EFRepositoryTest()
         {
             var dbOptions = new DbContextOptionsBuilder<NetCoreAppContext>()
-                .UseInMemoryDatabase(databaseName: "TestNetCoreApp")
+                .UseInMemoryDatabase(databaseName: "TestNetCoreAppEF")
                 .Options;
             _dbContext = new NetCoreAppContext(dbOptions);
             _categorieRepository = new EfRepository<Categorie>(_dbContext);
@@ -52,7 +53,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
             categorie.Libelle = "Coronavirus";
             categorie.UpdateDateModification();
             await _categorieRepository.UpdateAsync(categorie);
-            
+
             categorie = await _categorieRepository.GetByIdAsync(3);
             Assert.Equal("Coronavirus", categorie.Libelle);
             Assert.NotEqual(categorie.DateSaisie, categorie.DateModification);
@@ -65,8 +66,8 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
             Assert.Equal(_categories.Count, count_valeur);
         }
 
-        
-    
+
+
 
     }
 }

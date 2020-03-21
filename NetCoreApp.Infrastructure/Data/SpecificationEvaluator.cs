@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreApp.Core.Entities;
-using NetCoreApp.Core.Interfaces;
+using NetCoreApp.Core.Interfaces.Repositories;
 using System.Linq;
 
 namespace NetCoreApp.Infrastructure.Data
-{ 
+{
     public class SpecificationEvaluator<T> where T : BaseEntity
     {
         public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreApp.Core.Entities;
-using NetCoreApp.Core.Interfaces;
-using System;
+using NetCoreApp.Core.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace NetCoreApp.Infrastructure.Data
+namespace NetCoreApp.Infrastructure.Data.Repositories
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
@@ -17,7 +15,7 @@ namespace NetCoreApp.Infrastructure.Data
             _dbContext = dbContext;
         }
 
-       public async Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
