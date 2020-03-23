@@ -18,16 +18,16 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
         public CategorieServiceTest()
         {
             _listeCategories = new List<Categorie>();
-            _categories =  GetCategories();
+            _categories = GetCategories();
             _mockCategorieRepository = new Mock<IAsyncRepository<Categorie>>();
             _mockCategorieRepository.Setup(m => m.ListAllAsync()).Returns(_categories);
             _categorieService = new CategorieService(_mockCategorieRepository.Object);
         }
 
         [Fact]
-        public async Task Test_GetAllCategories_Retourne_10_Categories()
+        public async Task Test_GetAllCategories_Retourne_5_Categories()
         {
-            var categories =  await _categorieService.GetAllCategories();
+            var categories = await _categorieService.GetAllCategories();
             Assert.Equal(5, categories.ToList().Count);
         }
 
@@ -38,17 +38,44 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
         [InlineData("TV")]
         public async Task Test_AddCategorie_Verifie_Si_La_Methode_AddAsync_Est_Appelee(string libelle)
         {
-            Categorie categorie = new Categorie(6, libelle);            
+            Categorie categorie = new Categorie(6, libelle);
             var categorieAvecLibelle = _listeCategories.Where(c => c.Libelle == libelle).FirstOrDefault();
             var resultat = await _categorieService.AddCategorie(categorie);
-            int nombreAppel = (categorieAvecLibelle != null ? 0: 1);
+            int nombreAppel = (categorieAvecLibelle != null ? 0 : 1);
 
-            _mockCategorieRepository.Verify(x => x.AddAsync(It.IsAny<Categorie>()),Times.Exactly(nombreAppel));
+            _mockCategorieRepository.Verify(x => x.AddAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Test_AddCategorie_Verifie_Valeur_Incremente_De_MaxId(bool initialiseListe)
+        {
+            if (initialiseListe)
+            {
+                _categories = GetCategoriesVides();
+                _mockCategorieRepository.Setup(m => m.ListAllAsync()).Returns(_categories);
+            }
+
+            Categorie categorie = new Categorie(0, "Châpeau");
+            Categorie categorieRetour = null;
+            _mockCategorieRepository.Setup(x => x.AddAsync(It.IsAny<Categorie>()))
+                .Callback<Categorie>(
+                    c =>
+                    {
+                        categorieRetour = c;
+                    }
+                );
+            var resultat = await _categorieService.AddCategorie(categorie);
+
+            Assert.NotNull(categorieRetour);
+            Assert.Equal((initialiseListe ? 1 : 6), categorieRetour.Id);
+            Assert.Equal(categorie.Libelle, categorieRetour.Libelle);
         }
 
         private async Task<IEnumerable<Categorie>> GetCategories()
         {
-            _listeCategories=  new List<Categorie>()
+            _listeCategories = new List<Categorie>()
             {
                 new Categorie(1,"Teeshirt"),
                 new Categorie(2,"Pantalon"),
@@ -56,6 +83,12 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
                 new Categorie(4,"Chaussure"),
                 new Categorie(5,"Chaussette")
             };
+            return _listeCategories;
+        }
+
+        private async Task<IEnumerable<Categorie>> GetCategoriesVides()
+        {
+            _listeCategories = new List<Categorie>();
             return _listeCategories;
         }
     }

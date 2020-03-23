@@ -8,7 +8,6 @@ namespace NetCoreApp.Infrastructure.Data
 {
     public class NetCoreAppContextSeed
     {
-
         public static async Task SeedAsync(NetCoreAppContext dbContext)
         {
             try

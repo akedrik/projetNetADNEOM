@@ -17,11 +17,18 @@ namespace NetCoreApp.Core.Services
         }
         public async Task<bool> AddCategorie(Categorie categorie)
         {
-            var Categories = await GetAllCategories();
-            var categorieAvecLeLibelle = Categories.Where(c => c.Libelle == categorie.Libelle).FirstOrDefault();
+            var categories = await GetAllCategories();
+            var categorieAvecLeLibelle = categories.Where(c => c.Libelle == categorie.Libelle).FirstOrDefault();
             if (categorieAvecLeLibelle != null)
                 return false;
 
+            var maxId = 1;
+            if (categories.Any())
+            {
+                maxId = categories.Max(x => x.Id);
+                maxId += 1;
+            }
+            categorie.setId(maxId);
             await _categorieRepository.AddAsync(categorie);
             return true;
         }
