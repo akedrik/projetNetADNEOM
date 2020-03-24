@@ -38,8 +38,14 @@ namespace NetCoreApp
             services.AddScoped<ICategorieService, CategorieService>();
             services.AddScoped<ICategorieRepository, CategorieRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
-
+            
+            services.AddHttpClient();
             services.AddControllers();
+            services.AddRazorPages(
+                options =>
+                {
+                    options.Conventions.AddPageRoute("/Categorie/Index", "");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +63,7 @@ namespace NetCoreApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

@@ -16,5 +16,9 @@
     <ProjectReference Include="..\NetCoreApp.Infrastructure\NetCoreApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 
 </Project>

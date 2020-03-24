@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0908E6E8-0F5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ABDCCBDC-FA7B-4486-B519-ACC6FE6843EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreApp.Core", "NetCoreApp.Core\NetCoreApp.Core.csproj", "{34BB1E98-3444-4083-ADAF-31358BD0A15A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreApp.Core", "NetCoreApp.Core\NetCoreApp.Core.csproj", "{34BB1E98-3444-4083-ADAF-31358BD0A15A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreApp.Infrastructure", "NetCoreApp.Infrastructure\NetCoreApp.Infrastructure.csproj", "{E1119AF6-A55C-4D9B-9EFA-466BBBE1B6CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreApp.Infrastructure", "NetCoreApp.Infrastructure\NetCoreApp.Infrastructure.csproj", "{E1119AF6-A55C-4D9B-9EFA-466BBBE1B6CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreApp.Test", "NetCoreApp.Test\NetCoreApp.Test.csproj", "{CE8B5170-C4A3-4DD5-972D-97DEE64F7B96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreApp.Test", "NetCoreApp.Test\NetCoreApp.Test.csproj", "{CE8B5170-C4A3-4DD5-972D-97DEE64F7B96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
