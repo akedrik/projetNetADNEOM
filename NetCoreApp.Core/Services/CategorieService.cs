@@ -1,6 +1,7 @@
 ﻿using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Interfaces.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,8 +30,14 @@ namespace NetCoreApp.Core.Services
                 maxId += 1;
             }
             categorie.setId(maxId);
-            await _categorieRepository.AddAsync(categorie);
-            return true;
+            categorie.DateSaisie = DateTime.Now;
+            categorie.DateModification = DateTime.Now;
+            try
+            {
+                await _categorieRepository.AddAsync(categorie);
+                return true;
+            }
+            catch { return false;}
         }
 
         public async Task<IEnumerable<Categorie>> GetAllCategories()
@@ -43,9 +50,34 @@ namespace NetCoreApp.Core.Services
             return await _categorieRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateCategorie(Categorie categorie)
+        public async Task<bool> UpdateCategorie(int id,string libelle)
         {
-            await _categorieRepository.UpdateAsync(categorie);
+            Categorie categorie = await GetCategorieById(id);
+            if (categorie == null)
+                return false;
+
+            categorie.Libelle = libelle;
+            categorie.DateModification = DateTime.Now;
+            try
+            {
+                await _categorieRepository.UpdateAsync(categorie);
+                return true;
+            }
+            catch { return false; }
+        }
+
+        public async Task<bool> DeleteCategorie(int id)
+        {
+            Categorie categorie = await GetCategorieById(id);
+            if (categorie == null)
+                return false;
+            try
+            {
+                await _categorieRepository.DeleteAsync(categorie);
+                return true;
+            }
+            catch { return false; }
+           
         }
 
     }

@@ -36,5 +36,35 @@ namespace NetCoreApp.Controllers.Api
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Categorie categorie)
+        {
+            var result = await _categorieService.AddCategorie(categorie);
+            if (!result)
+                return StatusCode(StatusCodes.Status500InternalServerError,result);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put ([FromBody]Categorie categorie)
+        {
+            var result = await _categorieService.UpdateCategorie(categorie.Id, categorie.Libelle);
+            if (!result)
+                return BadRequest();
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete ([FromBody]Categorie categorie)
+        {
+            var result = await _categorieService.DeleteCategorie(categorie.Id);
+            if (!result)
+                return BadRequest();
+
+            return Ok(result);
+        }
     }
 }

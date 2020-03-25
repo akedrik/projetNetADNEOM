@@ -44,6 +44,10 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
             int nombreAppel = (categorieAvecLibelle != null ? 0 : 1);
 
             _mockCategorieRepository.Verify(x => x.AddAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+            if (nombreAppel == 0)
+                Assert.False(resultat);
+            else
+                Assert.True(resultat);
         }
 
         [Theory]
@@ -68,9 +72,52 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
                 );
             var resultat = await _categorieService.AddCategorie(categorie);
 
+            Assert.True(resultat);
             Assert.NotNull(categorieRetour);
             Assert.Equal((initialiseListe ? 1 : 6), categorieRetour.Id);
             Assert.Equal(categorie.Libelle, categorieRetour.Libelle);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(7)]
+        public async Task Test_UpdateCategorie_Verifie_Si_La_Methode_UpdateAsync_Est_Appelee(int id)
+        {
+            _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
+                .Returns(GetCategorieById(id));
+
+            var resultat = await _categorieService.UpdateCategorie(id, "Coronavirus");
+            var categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            int nombreAppel = (categorie == null ? 0 : 1);
+
+            if (categorie == null)
+                Assert.False(resultat);
+            else
+                Assert.True(resultat);
+
+            _mockCategorieRepository.Verify(x => x.UpdateAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(7)]
+        public async Task Test_DeleteCategorie_Verifie_Si_La_Methode_DeleteAsync_Est_Appelee(int id)
+        {
+            _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
+                .Returns(GetCategorieById(id));
+
+            var resultat = await _categorieService.DeleteCategorie(id);
+            var categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            int nombreAppel = (categorie == null ? 0 : 1);
+
+            if (categorie == null)
+                Assert.False(resultat);
+            else
+                Assert.True(resultat);
+
+            _mockCategorieRepository.Verify(x => x.DeleteAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+
         }
 
         private async Task<IEnumerable<Categorie>> GetCategories()
@@ -84,6 +131,11 @@ namespace NetCoreApp.Test.Tests_Intégrations.Services
                 new Categorie(5,"Chaussette")
             };
             return _listeCategories;
+        }
+
+        private async Task<Categorie>GetCategorieById(int id)
+        {
+            return  _listeCategories.Where(c => c.Id == id).FirstOrDefault();
         }
 
         private async Task<IEnumerable<Categorie>> GetCategoriesVides()
