@@ -19,12 +19,19 @@ namespace NetCoreApp
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var netCoreAppContext = services.GetRequiredService<NetCoreAppContext>();
-                await NetCoreAppContextSeed.SeedAsync(netCoreAppContext);
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                try
+                {
+                    var netCoreAppContext = services.GetRequiredService<NetCoreAppContext>();
+                    await NetCoreAppContextSeed.SeedAsync(netCoreAppContext);
+                }
+                catch (Exception ex)
+                {
+                    var logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
             }
-            
             host.Run();
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
