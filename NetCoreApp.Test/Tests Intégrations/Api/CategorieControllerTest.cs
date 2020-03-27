@@ -2,6 +2,7 @@
 using Moq;
 using NetCoreApp.Controllers.Api;
 using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Services;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,8 +81,8 @@ namespace NetCoreApp.Test.Tests_Intégrations.Api
 
         private async Task<Categorie> GetCategorieById(int id)
         {
-            _categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
-            return _categorie;
+            _categorie =  _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            return  _categorie;
         }
     }
 }

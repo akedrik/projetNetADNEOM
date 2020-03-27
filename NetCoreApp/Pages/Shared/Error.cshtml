@@ -1,0 +1,38 @@
+﻿@page
+@model NetCoreApp.Pages.Shared.ErrorModel
+@{
+    ViewData["Title"] = "Erreur";
+}
+
+<h1 class="text-danger">Erreur d'exécution.</h1>
+<h2 class="text-danger">Une erreur s'est produite lors du traitement de votre demande.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>ID Requête:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+@if (Model.ShowReferrer)
+{
+    <h3>Referrer</h3>
+    <p>
+        <a href="@Model.Referrer">@Model.Referrer</a>
+    </p>
+}
+
+@if (@Model.ShowExceptionMessage)
+{
+    <h3>Exception Message</h3>
+    <p>
+        @Model.ExceptionMessage
+    </p>
+}
+
+
+<p>
+    Consultez <strong>les fichiers de journalisation </strong>pour plus de détails sur l'erreur survenue et <strong>Contactez votre Administrateur.</strong>
+</p>
+
+

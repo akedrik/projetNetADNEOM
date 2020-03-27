@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace NetCoreApp.Pages.Categorie
         }
         public async Task OnGet()
         {
+            throw new Exception();
             var request = new HttpRequestMessage(HttpMethod.Get,
             "http://localhost:64781/api/categorie");
             var client = _clientFactory.CreateClient();
@@ -32,7 +34,6 @@ namespace NetCoreApp.Pages.Categorie
             {
                 Categories = new List<Core.Entities.Categorie>();
             }
-            
         }
     }
 }

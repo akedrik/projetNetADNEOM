@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Repositories;
@@ -18,6 +12,7 @@ using NetCoreApp.Core.Services;
 using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
 using NetCoreApp.Infrastructure.Logging;
+using Serilog;
 
 namespace NetCoreApp
 {
@@ -55,7 +50,7 @@ namespace NetCoreApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NetCoreApp API", Version = "v1" });
             });
-            
+            services.AddLogging(configure => configure.AddSerilog());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +60,13 @@ namespace NetCoreApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Shared/Error");
+                app.UseHsts();
+            }
+
+            app.UseStatusCodePagesWithRedirects("/Shared/StatusCode?code={0}");
 
             app.UseStaticFiles();
             app.UseRouting();
