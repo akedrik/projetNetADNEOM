@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,18 +12,20 @@ namespace NetCoreApp.Pages.Categorie
     public class indexModel : PageModel
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
         public List<Core.Entities.Categorie> Categories { get; set; } = new List<Core.Entities.Categorie>();
 
-        public indexModel(IHttpClientFactory clientFactory)
+        public indexModel(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
         }
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
-            throw new Exception();
             var request = new HttpRequestMessage(HttpMethod.Get,
-            "http://localhost:64781/api/categorie");
+           _configuration["ApiBaseUrl"] +"categorie");
+
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -34,6 +38,17 @@ namespace NetCoreApp.Pages.Categorie
             {
                 Categories = new List<Core.Entities.Categorie>();
             }
+        }
+
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete,
+          _configuration["ApiBaseUrl"] + "categorie/" + id);
+
+            var client = _clientFactory.CreateClient();
+            await client.SendAsync(request);
+            return RedirectToPage();
         }
     }
 }

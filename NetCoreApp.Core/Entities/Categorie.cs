@@ -6,15 +6,12 @@ namespace NetCoreApp.Core.Entities
 {
     public class Categorie : BaseEntity
     {
-        [Required]
-        [StringLength(250)]
+        [Required, StringLength(250, MinimumLength = 2)]
+        [Display(Name ="Libellé")]
         public string Libelle { get; set; }
         public List<Article> Articles { get; set; }
 
-        public Categorie()
-        {
-                
-        }
+        public Categorie() { }       
         
         public Categorie(int id, string libelle)
         {
@@ -24,9 +21,6 @@ namespace NetCoreApp.Core.Entities
             DateModification = DateTime.Now;
         }
 
-        public void  setId(int id)
-        {
-            Id = id;
-        }
+        public void setId(int id) => Id = id;
     }
 }

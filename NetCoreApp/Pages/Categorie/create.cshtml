@@ -1,0 +1,37 @@
+﻿@page
+@using NetCoreApp.Core.Classes.Enum
+@model NetCoreApp.Pages.Categorie.createModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Catégorie";
+    ViewBag.Current = EnumMenu.Categorie;
+}
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<h2>Catégorie - Mise à jour</h2>
+<div class=".mt-2">
+    <form method="post">
+        @*<div class="form-group">
+                <label asp-for="Categorie.Id">ID</label>
+                <input asp-for="Categorie.Id" class="form-control" readonly />
+            </div>*@
+        <div class="alert alert-danger" role="alert">
+            This is a danger alert—check it out!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Categorie.Libelle"></label>
+            <input asp-for="Categorie.Libelle" class="form-control" />
+            <span asp-validation-for="Categorie.Libelle" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="reset" class="btn btn-danger">Annuler</button>
+    </form>
+</div>

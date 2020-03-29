@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreApp.Core.Entities;
-using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;

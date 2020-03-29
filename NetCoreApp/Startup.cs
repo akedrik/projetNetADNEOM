@@ -37,13 +37,13 @@ namespace NetCoreApp
             services.AddScoped<ICategorieRepository, CategorieRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-
+          
             services.AddHttpClient();
             services.AddControllers();
             services.AddRazorPages(
                 options =>
                 {
-                    options.Conventions.AddPageRoute("/Categorie/Index", "");
+                    options.Conventions.AddPageRoute("/Home/Index", "");
                 });
 
             services.AddSwaggerGen(c =>

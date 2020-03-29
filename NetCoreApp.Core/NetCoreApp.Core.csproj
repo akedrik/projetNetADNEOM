@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Fonctions\" />
+    <Folder Include="Classes\Fonctions\" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NetCoreApp.Test.Tests_Intégrations.Services
+namespace NetCoreApp.Test.Tests_Unitaires.Services
 {
     public class CategorieServiceTest
     {

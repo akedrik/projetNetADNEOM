@@ -5,14 +5,11 @@ namespace NetCoreApp.Core.Entities
 {
     public abstract class BaseEntity
     {
-        [Required]
+       
         public virtual int Id { get;  set; }
         public virtual DateTime DateSaisie { get; set; }
         public virtual DateTime DateModification { get; set; }
 
-        public virtual void UpdateDateModification()
-        {
-            DateModification = DateTime.Now;
-        }
+        public virtual void UpdateDateModification() => DateModification = DateTime.Now;
     }
 }

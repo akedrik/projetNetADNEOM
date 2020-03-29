@@ -18,10 +18,7 @@ namespace NetCoreApp.Core.Entities
         public int CategorieId { get; set; }
         public Categorie Categorie { get; set; }
 
-        public Article()
-        {
-
-        }
+        public Article() { }
 
         public Article(int id, string libelle, double prix, int stock, int categorieId)
         {

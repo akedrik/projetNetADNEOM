@@ -2,14 +2,13 @@
 using Moq;
 using NetCoreApp.Controllers.Api;
 using NetCoreApp.Core.Entities;
-using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NetCoreApp.Test.Tests_Intégrations.Api
+namespace NetCoreApp.Test.Tests_Unitaires.Api
 {
     public class CategorieControllerTest
     {
@@ -24,7 +23,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Api
             _listeCategories = new List<Categorie>();
             _categories = GetCategories();
             _mockCategorieServiceRepository = new Mock<ICategorieService>();
-            _mockCategorieServiceRepository.Setup(m => m.GetAllCategories()).Returns(_categories);
+            _mockCategorieServiceRepository.Setup(m => m.GetAllCategories()).Returns(_categories);         
             _CategorieController = new CategorieController(_mockCategorieServiceRepository.Object);
         }
 
@@ -66,6 +65,56 @@ namespace NetCoreApp.Test.Tests_Intégrations.Api
             }
         }
 
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Test_Post_Retourne_Status_Code(bool value)
+        {
+            Task<bool> valueActionResult = GetValueActionResult(value);
+            _mockCategorieServiceRepository.Setup(m => m.AddCategorie(It.IsAny<Categorie>()))
+                .Returns(valueActionResult);
+            Categorie categorie = new Categorie(0, "Eau");
+            var actionResult = await  _CategorieController.Post(categorie);
+            
+            if (value)
+                Assert.IsType<OkObjectResult>(actionResult);
+            else
+                Assert.IsType<ObjectResult>(actionResult);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Test_Delete_Retourne_Status_Code(bool value)
+        {
+            Task<bool> valueActionResult = GetValueActionResult(value);
+            _mockCategorieServiceRepository.Setup(m => m.DeleteCategorie(It.IsAny<int>()))
+                .Returns(valueActionResult);
+            var actionResult = await _CategorieController.Delete(4);
+
+            if (value)
+                Assert.IsType<OkObjectResult>(actionResult);
+            else
+                Assert.IsType<BadRequestResult>(actionResult);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Test_Put_Retourne_Status_Code(bool value)
+        {
+            Task<bool> valueActionResult = GetValueActionResult(value);
+            _mockCategorieServiceRepository.Setup(m => m.UpdateCategorie(It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(valueActionResult);
+            Categorie categorie = new Categorie(0, "Coronavirus");
+            var actionResult = await _CategorieController.Put(7,categorie);
+
+            if (value)
+                Assert.IsType<OkObjectResult>(actionResult);
+            else
+                Assert.IsType<BadRequestResult>(actionResult);
+        }
+
         private async Task<IEnumerable<Categorie>> GetCategories()
         {
             _listeCategories = new List<Categorie>()
@@ -81,8 +130,13 @@ namespace NetCoreApp.Test.Tests_Intégrations.Api
 
         private async Task<Categorie> GetCategorieById(int id)
         {
-            _categorie =  _listeCategories.Where(c => c.Id == id).FirstOrDefault();
-            return  _categorie;
+            _categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            return _categorie;
+        }
+
+        private async Task<bool> GetValueActionResult(bool value)
+        {
+            return value;
         }
     }
 }
