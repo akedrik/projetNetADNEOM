@@ -18,14 +18,26 @@ namespace NetCoreApp.Pages.Categorie
 
         [BindProperty]
         public NetCoreApp.Core.Entities.Categorie Categorie { get; set; }
+        [BindProperty(SupportsGet =true)]
+        public int Id { get; set; }
+
         public createModel(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
             _configuration = configuration;
         }
-        public IActionResult OnGet()
+        public async Task OnGet()
         {
-            return Page();
+            var request = new HttpRequestMessage(HttpMethod.Get,
+           _configuration["ApiBaseUrl"] + "categorie/"+Id);
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                Categorie = JsonConvert.DeserializeObject<Core.Entities.Categorie>(stringResponse);
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -37,8 +49,17 @@ namespace NetCoreApp.Pages.Categorie
             
             var content = JsonConvert.SerializeObject(Categorie);
             var client = _clientFactory.CreateClient();
-            var response = await  client.PostAsync(_configuration["ApiBaseUrl"] + "categorie",
-                new StringContent(content, Encoding.UTF8, "application/json") );
+            HttpResponseMessage response = new HttpResponseMessage();
+            if (Id == 0)
+            {
+                response = await client.PostAsync(_configuration["ApiBaseUrl"] + "categorie",
+                new StringContent(content, Encoding.UTF8, "application/json"));
+            }
+            else
+            {
+                response = await client.PutAsync(_configuration["ApiBaseUrl"] + "categorie/"+Id.ToString(),
+                new StringContent(content, Encoding.UTF8, "application/json"));
+            }
 
             if (!response.IsSuccessStatusCode)
             {

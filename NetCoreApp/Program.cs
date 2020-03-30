@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NetCoreApp.Infrastructure.Data;
-using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -13,11 +12,6 @@ namespace NetCoreApp
     {
         public async static Task Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-            .WriteTo.File($"Logs/log-error-{DateTime.Now.ToShortDateString().Replace('/', '-')}.log",
-            Serilog.Events.LogEventLevel.Error)
-            .CreateLogger();
-
             var host = CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {

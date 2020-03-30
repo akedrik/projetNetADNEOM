@@ -13,6 +13,7 @@ using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
 using NetCoreApp.Infrastructure.Logging;
 using Serilog;
+using System;
 
 namespace NetCoreApp
 {
@@ -37,7 +38,7 @@ namespace NetCoreApp
             services.AddScoped<ICategorieRepository, CategorieRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-          
+
             services.AddHttpClient();
             services.AddControllers();
             services.AddRazorPages(
@@ -64,6 +65,11 @@ namespace NetCoreApp
             {
                 app.UseExceptionHandler("/Shared/Error");
                 app.UseHsts();
+                
+                Log.Logger = new LoggerConfiguration()
+                .WriteTo.File($"Logs/log-error-{DateTime.Now.ToShortDateString().Replace('/', '-')}.log",
+                Serilog.Events.LogEventLevel.Error)
+                .CreateLogger();
             }
 
             app.UseStatusCodePagesWithRedirects("/Shared/StatusCode?code={0}");
