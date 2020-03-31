@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Exceptions;
 using NetCoreApp.Core.Interfaces.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -43,36 +45,68 @@ namespace NetCoreApp.Controllers.Api
 
         [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody]Categorie categorie)
         {
-            var result = await _categorieService.AddCategorie(categorie);
-            if (!result)
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-
-            return Ok(result);
+            try
+            {
+                await _categorieService.AddCategorie(categorie);
+                return Ok();
+            }catch(RecordAlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(int id, [FromBody]Categorie categorie)
         {
-            var result = await _categorieService.UpdateCategorie(id, categorie.Libelle);
-            if (!result)
-                return BadRequest();
-            return Ok(result);
+            try
+            {
+                await _categorieService.UpdateCategorie(id, categorie.Libelle);
+                return Ok();
+            }
+            catch (RecordAlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (RecordNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _categorieService.DeleteCategorie(id);
-            if (!result)
-                return BadRequest();
-            return Ok(result);
+            try
+            {
+                await _categorieService.DeleteCategorie(id);
+                return Ok();
+            }
+            catch (RecordNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

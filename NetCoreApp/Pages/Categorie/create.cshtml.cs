@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NetCoreApp.Pages.Categorie
 {
@@ -18,8 +15,10 @@ namespace NetCoreApp.Pages.Categorie
 
         [BindProperty]
         public NetCoreApp.Core.Entities.Categorie Categorie { get; set; }
-        [BindProperty(SupportsGet =true)]
+        [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
+
+        public string Message { get; set; }
 
         public createModel(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
@@ -29,7 +28,7 @@ namespace NetCoreApp.Pages.Categorie
         public async Task OnGet()
         {
             var request = new HttpRequestMessage(HttpMethod.Get,
-           _configuration["ApiBaseUrl"] + "categorie/"+Id);
+           _configuration["ApiBaseUrl"] + "categorie/" + Id);
 
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
@@ -39,14 +38,14 @@ namespace NetCoreApp.Pages.Categorie
                 Categorie = JsonConvert.DeserializeObject<Core.Entities.Categorie>(stringResponse);
             }
         }
-
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                Message = "Vous avez des erreus de formes";
                 return Page();
             }
-            
+
             var content = JsonConvert.SerializeObject(Categorie);
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = new HttpResponseMessage();
@@ -57,12 +56,13 @@ namespace NetCoreApp.Pages.Categorie
             }
             else
             {
-                response = await client.PutAsync(_configuration["ApiBaseUrl"] + "categorie/"+Id.ToString(),
+                response = await client.PutAsync(_configuration["ApiBaseUrl"] + "categorie/" + Id.ToString(),
                 new StringContent(content, Encoding.UTF8, "application/json"));
             }
 
             if (!response.IsSuccessStatusCode)
             {
+                Message = await response.Content.ReadAsStringAsync();
                 return Page();
             }
             return RedirectToPage("./Index");

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace NetCoreApp.Pages.Categorie
         public async Task OnGetAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get,
-           _configuration["ApiBaseUrl"] +"categorie");
+           _configuration["ApiBaseUrl"] + "categorie");
 
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);

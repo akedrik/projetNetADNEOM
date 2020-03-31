@@ -45,7 +45,10 @@ namespace NetCoreApp
                 options =>
                 {
                     options.Conventions.AddPageRoute("/Home/Index", "");
-                });
+                })
+                .AddSessionStateTempDataProvider();
+
+            services.AddSession();
 
             services.AddSwaggerGen(c =>
             {
@@ -78,6 +81,7 @@ namespace NetCoreApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

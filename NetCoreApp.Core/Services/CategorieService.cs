@@ -1,4 +1,5 @@
 ﻿using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Exceptions;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Interfaces.Services;
 using System;
@@ -16,12 +17,12 @@ namespace NetCoreApp.Core.Services
         {
             _categorieRepository = categorieRepository;
         }
-        public async Task<bool> AddCategorie(Categorie categorie)
+        public async Task AddCategorie(Categorie categorie)
         {
             var categories = await GetAllCategories();
             var categorieAvecLeLibelle = categories.Where(c => c.Libelle == categorie.Libelle).FirstOrDefault();
             if (categorieAvecLeLibelle != null)
-                return false;
+                throw new RecordAlreadyExistException();
 
             var maxId = 1;
             if (categories.Any())
@@ -35,9 +36,11 @@ namespace NetCoreApp.Core.Services
             try
             {
                 await _categorieRepository.AddAsync(categorie);
-                return true;
             }
-            catch { return false;}
+            catch (Exception ex) 
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task<IEnumerable<Categorie>> GetAllCategories()
@@ -50,35 +53,43 @@ namespace NetCoreApp.Core.Services
             return await _categorieRepository.GetByIdAsync(id);
         }
 
-        public async Task<bool> UpdateCategorie(int id,string libelle)
+        public async Task UpdateCategorie(int id,string libelle)
         {
+            var categories = await GetAllCategories();
+            var categorieAvecLeLibelle = categories.Where(c => c.Libelle == libelle
+                        && c.Id!= id).FirstOrDefault();
+            if (categorieAvecLeLibelle != null)
+                throw new RecordAlreadyExistException();
+
             Categorie categorie = await GetCategorieById(id);
             if (categorie == null)
-                return false;
+                throw new RecordNotFoundException();
 
             categorie.Libelle = libelle;
             categorie.DateModification = DateTime.Now;
             try
             {
                 await _categorieRepository.UpdateAsync(categorie);
-                return true;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
-        public async Task<bool> DeleteCategorie(int id)
+        public async Task DeleteCategorie(int id)
         {
             Categorie categorie = await GetCategorieById(id);
             if (categorie == null)
-                return false;
+                throw new RecordNotFoundException();
             try
             {
                 await _categorieRepository.DeleteAsync(categorie);
-                return true;
             }
-            catch { return false; }
-           
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
-
     }
 }

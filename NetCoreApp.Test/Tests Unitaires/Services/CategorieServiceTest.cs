@@ -1,7 +1,9 @@
 ﻿using Moq;
 using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Exceptions;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,14 +42,17 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         {
             Categorie categorie = new Categorie(6, libelle);
             var categorieAvecLibelle = _listeCategories.Where(c => c.Libelle == libelle).FirstOrDefault();
-            var resultat = await _categorieService.AddCategorie(categorie);
             int nombreAppel = (categorieAvecLibelle != null ? 0 : 1);
-
-            _mockCategorieRepository.Verify(x => x.AddAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
             if (nombreAppel == 0)
-                Assert.False(resultat);
+            {
+                await Assert.ThrowsAsync<RecordAlreadyExistException>(() => _categorieService.AddCategorie(categorie));
+            }
             else
-                Assert.True(resultat);
+            {
+                await _categorieService.AddCategorie(categorie);
+            }
+            _mockCategorieRepository.Verify(x => x.AddAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+
         }
 
         [Theory]
@@ -70,12 +75,19 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
                         categorieRetour = c;
                     }
                 );
-            var resultat = await _categorieService.AddCategorie(categorie);
+            await _categorieService.AddCategorie(categorie);
 
-            Assert.True(resultat);
             Assert.NotNull(categorieRetour);
             Assert.Equal((initialiseListe ? 1 : 6), categorieRetour.Id);
             Assert.Equal(categorie.Libelle, categorieRetour.Libelle);
+        }
+
+        [Fact]
+        public async Task Test_AddCategorie_Leve_Exception_De_Type_RecordAlreadyExistException()
+        {
+            Categorie categorie = new Categorie(6, "Maillot");
+            var ex = await Assert.ThrowsAsync<RecordAlreadyExistException>(() => _categorieService.AddCategorie(categorie));
+            Assert.Equal("Cet enregistrement existe déjà.", ex.Message);
         }
 
         [Theory]
@@ -86,17 +98,33 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
             _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
                 .Returns(GetCategorieById(id));
 
-            var resultat = await _categorieService.UpdateCategorie(id, "Coronavirus");
-            var categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            var categorie = _listeCategories.Where(c => c.Id == id).SingleOrDefault();
             int nombreAppel = (categorie == null ? 0 : 1);
 
-            if (categorie == null)
-                Assert.False(resultat);
+            if (nombreAppel == 0)
+            {
+                await Assert.ThrowsAsync<RecordNotFoundException>(() => _categorieService.UpdateCategorie(id, "Coronavirus"));
+            }
             else
-                Assert.True(resultat);
+            {
+                await _categorieService.UpdateCategorie(id, "Coronavirus");
+            }
 
             _mockCategorieRepository.Verify(x => x.UpdateAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
+        }
 
+        [Theory]
+        [InlineData("RecordNotFoundException")]
+        [InlineData("RecordAlreadyExistException")]
+        public async Task Test_UpdateCategorie_Leve_Exacte_Exeception(string exception)
+        {
+            _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
+              .Returns(GetCategorieById(exception == "RecordNotFoundException" ? 20 : 5));
+            
+            if (exception == "RecordNotFoundException")
+                await Assert.ThrowsAsync<RecordNotFoundException>(() => _categorieService.UpdateCategorie(20, "Coronavirus"));
+            else
+                await Assert.ThrowsAsync<RecordAlreadyExistException>(() => _categorieService.UpdateCategorie(5, "Maillot"));
         }
 
         [Theory]
@@ -106,18 +134,19 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         {
             _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
                 .Returns(GetCategorieById(id));
-
-            var resultat = await _categorieService.DeleteCategorie(id);
             var categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
             int nombreAppel = (categorie == null ? 0 : 1);
 
-            if (categorie == null)
-                Assert.False(resultat);
+            if (nombreAppel == 0)
+            {
+                await Assert.ThrowsAsync<RecordNotFoundException>(() => _categorieService.DeleteCategorie(id));
+            }
             else
-                Assert.True(resultat);
+            {
+                await _categorieService.DeleteCategorie(id);
+            }
 
             _mockCategorieRepository.Verify(x => x.DeleteAsync(It.IsAny<Categorie>()), Times.Exactly(nombreAppel));
-
         }
 
         private async Task<IEnumerable<Categorie>> GetCategories()
@@ -133,9 +162,9 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
             return _listeCategories;
         }
 
-        private async Task<Categorie>GetCategorieById(int id)
+        private async Task<Categorie> GetCategorieById(int id)
         {
-            return  _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            return _listeCategories.Where(c => c.Id == id).FirstOrDefault();
         }
 
         private async Task<IEnumerable<Categorie>> GetCategoriesVides()
