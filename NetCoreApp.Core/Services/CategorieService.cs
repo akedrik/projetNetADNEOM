@@ -30,7 +30,7 @@ namespace NetCoreApp.Core.Services
                 maxId = categories.Max(x => x.Id);
                 maxId += 1;
             }
-            categorie.setId(maxId);
+            categorie.SetId(maxId);
             categorie.DateSaisie = DateTime.Now;
             categorie.DateModification = DateTime.Now;
             try

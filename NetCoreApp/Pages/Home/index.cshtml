@@ -1,11 +1,11 @@
 ﻿@page
 @model NetCoreApp.Pages.Home.indexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = _localizer["Acceuil"];
     ViewBag.Current = EnumMenu.Home;
 }
 
-<h2>Tableau de bord</h2>
+<h2>@_localizer["Tableau de bord"]</h2>
 
-<p> Bienvenue sur la page Admin de NetCoreApp</p>
+<p>@_localizer["Bienvenue sur la page Admin de NetCoreApp"]</p>
 

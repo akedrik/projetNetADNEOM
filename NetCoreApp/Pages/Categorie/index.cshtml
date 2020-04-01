@@ -2,13 +2,10 @@
 @model NetCoreApp.Pages.Categorie.indexModel
 
 @{
-    ViewData["Title"] = "Catégories";
+    ViewData["Title"] = _localizer["Catégories"];
     ViewBag.Current = EnumMenu.Categorie;
 }
 
-@section css{
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-}
 
 @section scripts{
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -21,17 +18,17 @@
     </script>
 }
 
-<h2>Listes des catégories</h2>
+<h2>@_localizer["Listes des catégories"]</h2>
 <div class=".mt-2">
-    <a asp-page="/Categorie/Create"> <button class="btn btn-primary float-right">Ajouter</button></a>
+    <a asp-page="/Categorie/Create"> <button class="btn btn-primary float-right">@_localizer["Ajouter"]</button></a>
     <form id="frm" method="post">
         
         <table id="example" class="table table-hover table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Libelle</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">@_localizer["Id"]</th>
+                    <th scope="col">@_localizer["Libelle"]</th>
+                    <th scope="col">@_localizer["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +42,7 @@
                                 <i class="fa fa-pencil"></i>
                             </a>
                             <button type="submit"
-                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élement ?')"
+                                    onclick="return confirm(@_localizer["Êtes-vous sûr de vouloir supprimer cet élement ?"])"
                                     asp-page-handler="delete"
                                     asp-route-id="@categorie.Id">
                                 <i class="fa fa-trash-o"></i>

@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Repositories;
@@ -14,6 +17,8 @@ using NetCoreApp.Infrastructure.Data.Repositories;
 using NetCoreApp.Infrastructure.Logging;
 using Serilog;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace NetCoreApp
 {
@@ -41,13 +46,35 @@ namespace NetCoreApp
 
             services.AddHttpClient();
             services.AddControllers();
+
+            services.AddLocalization(opts =>
+            {
+                opts.ResourcesPath = "Resources";
+            });
+
             services.AddRazorPages(
                 options =>
                 {
                     options.Conventions.AddPageRoute("/Home/Index", "");
                 })
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .AddViewLocalization(opts => { opts.ResourcesPath = "Resources"; })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
 
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var supportedCultures = new List<CultureInfo> {
+                    new CultureInfo("en"),
+                    new CultureInfo("fr")
+                  };
+
+                opts.DefaultRequestCulture = new RequestCulture("fr");
+                // Formatting numbers, dates, etc.
+                opts.SupportedCultures = supportedCultures;
+                // UI strings that we have localized.
+                opts.SupportedUICultures = supportedCultures;
+            });
             services.AddSession();
 
             services.AddSwaggerGen(c =>
@@ -68,7 +95,7 @@ namespace NetCoreApp
             {
                 app.UseExceptionHandler("/Shared/Error");
                 app.UseHsts();
-                
+
                 Log.Logger = new LoggerConfiguration()
                 .WriteTo.File($"Logs/log-error-{DateTime.Now.ToShortDateString().Replace('/', '-')}.log",
                 Serilog.Events.LogEventLevel.Error)
@@ -82,6 +109,11 @@ namespace NetCoreApp
 
             app.UseAuthorization();
             app.UseSession();
+
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+
+            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {

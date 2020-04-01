@@ -6,7 +6,9 @@ namespace NetCoreApp.Core.Entities
 {
     public class Categorie : BaseEntity
     {
-        [Required, StringLength(250, MinimumLength = 2)]
+        [Required(ErrorMessage = "Le champ Libellé est requis.")]
+        [StringLength(250, MinimumLength = 2, 
+            ErrorMessage ="La longeur du libellé doit entre 2 et 250 caratères.")]
         [Display(Name ="Libellé")]
         public string Libelle { get; set; }
         public List<Article> Articles { get; set; }
@@ -21,6 +23,6 @@ namespace NetCoreApp.Core.Entities
             DateModification = DateTime.Now;
         }
 
-        public void setId(int id) => Id = id;
+        public void SetId(int id) => Id = id;
     }
 }

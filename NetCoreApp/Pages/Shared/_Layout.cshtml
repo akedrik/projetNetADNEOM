@@ -6,6 +6,7 @@ DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"] - Net Core App Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     @RenderSection("css", required: false)
 </head>
 <body>
@@ -18,16 +19,16 @@ DOCTYPE html>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item @( ViewBag.Current == EnumMenu.Home?"active":"" ) ">
-                    <a class="nav-link" asp-page="/Home/Index">Tableau de bord</a>
+                    <a class="nav-link" asp-page="/Home/Index">@_localizer["Tableau de bord"]</a>
                 </li>
                 <li class="nav-item @( ViewBag.Current == EnumMenu.Categorie?"active":"" )">
-                    <a class="nav-link" asp-page="/Categorie/Index">Catégorie</a>
+                    <a class="nav-link" asp-page="/Categorie/Index">@_localizer["Catégorie"]</a>
                 </li>
                 @*<li class="nav-item @( ViewBag.Current == EnumMenu.Article?"active":"" )">
-            <a class="nav-link" asp-page="/Article/Index">Article</a>
-        </li>*@
+                <a class="nav-link" asp-page="/Article/Index">Article</a>
+            </li>*@
             </ul>
-
+            <partial name="_SelectLanguagePartial" />
         </div>
     </nav>
     <div class="container" style="padding-top:0px;">
