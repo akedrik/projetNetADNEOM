@@ -1,12 +1,11 @@
 ﻿using NetCoreApp.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetCoreApp.Core.Interfaces.Repositories
 {
     public interface ICategorieRepository : IAsyncRepository<Categorie>
     {
-
+        Categorie GetByLibelleAsync(string libelle);
+        Categorie GetByLibelleWithNoIdAsync(int id, string libelle);
+        int MaxId();
     }
 }

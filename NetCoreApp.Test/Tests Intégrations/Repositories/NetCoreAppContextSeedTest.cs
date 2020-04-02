@@ -3,6 +3,7 @@ using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -43,6 +44,13 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
             Assert.Equal(1, article.CategorieId);
             Assert.Equal(20, article.Prix);
             Assert.Equal(75, article.Stock);
+        }
+
+        [Fact]
+        public void Test_GetCategoriesFromJsonFile_Retourne_Liste_Des_Categories()
+        {
+            var categories = NetCoreAppContextSeed.GetCategoriesFromJsonFile();
+            Assert.Equal(10, categories.ToList().Count);
         }
     }
 }

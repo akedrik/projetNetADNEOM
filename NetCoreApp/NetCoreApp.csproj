@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\JsonFiles\Categorie.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
@@ -20,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Include="wwwroot\JsonFiles\Categorie.json" />
   </ItemGroup>
 
 

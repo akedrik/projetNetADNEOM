@@ -11,23 +11,23 @@ namespace NetCoreApp.Core.Services
 {
     public class CategorieService : ICategorieService
     {
-        private IAsyncRepository<Categorie> _categorieRepository;
+        private ICategorieRepository _categorieRepository;
 
-        public CategorieService(IAsyncRepository<Categorie> categorieRepository)
+        public CategorieService(ICategorieRepository categorieRepository)
         {
             _categorieRepository = categorieRepository;
         }
         public async Task AddCategorie(Categorie categorie)
         {
-            var categories = await GetAllCategories();
-            var categorieAvecLeLibelle = categories.Where(c => c.Libelle == categorie.Libelle).FirstOrDefault();
+            var rowsCount = await _categorieRepository.CountAsync();
+            var categorieAvecLeLibelle = _categorieRepository.GetByLibelleAsync(categorie.Libelle);
             if (categorieAvecLeLibelle != null)
                 throw new RecordAlreadyExistException();
 
             var maxId = 1;
-            if (categories.Any())
+            if (rowsCount > 0)
             {
-                maxId = categories.Max(x => x.Id);
+                maxId = _categorieRepository.MaxId();
                 maxId += 1;
             }
             categorie.SetId(maxId);
@@ -55,9 +55,7 @@ namespace NetCoreApp.Core.Services
 
         public async Task UpdateCategorie(int id,string libelle)
         {
-            var categories = await GetAllCategories();
-            var categorieAvecLeLibelle = categories.Where(c => c.Libelle == libelle
-                        && c.Id!= id).FirstOrDefault();
+            var categorieAvecLeLibelle = _categorieRepository.GetByLibelleWithNoIdAsync(id, libelle);
             if (categorieAvecLeLibelle != null)
                 throw new RecordAlreadyExistException();
 

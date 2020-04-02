@@ -14,15 +14,17 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
     public class CategorieServiceTest
     {
         private Task<IEnumerable<Categorie>> _categories;
-        private Mock<IAsyncRepository<Categorie>> _mockCategorieRepository;
+        private Mock<ICategorieRepository> _mockCategorieRepository;
         private CategorieService _categorieService;
         private List<Categorie> _listeCategories;
+        private int _rowsCount = 0;
         public CategorieServiceTest()
         {
             _listeCategories = new List<Categorie>();
             _categories = GetCategories();
-            _mockCategorieRepository = new Mock<IAsyncRepository<Categorie>>();
+            _mockCategorieRepository = new Mock<ICategorieRepository>();
             _mockCategorieRepository.Setup(m => m.ListAllAsync()).Returns(_categories);
+            _mockCategorieRepository.Setup(m => m.CountAsync()).Returns(GetRowsCount());            
             _categorieService = new CategorieService(_mockCategorieRepository.Object);
         }
 
@@ -41,6 +43,8 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         public async Task Test_AddCategorie_Verifie_Si_La_Methode_AddAsync_Est_Appelee(string libelle)
         {
             Categorie categorie = new Categorie(6, libelle);
+            _mockCategorieRepository.Setup(m => m.GetByLibelleAsync(It.IsAny<string>()))
+                .Returns(getByLibelle(categorie.Libelle));
             var categorieAvecLibelle = _listeCategories.Where(c => c.Libelle == libelle).FirstOrDefault();
             int nombreAppel = (categorieAvecLibelle != null ? 0 : 1);
             if (nombreAppel == 0)
@@ -64,9 +68,16 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
             {
                 _categories = GetCategoriesVides();
                 _mockCategorieRepository.Setup(m => m.ListAllAsync()).Returns(_categories);
+                _mockCategorieRepository.Setup(m => m.CountAsync()).Returns(GetRowsCount());
             }
 
             Categorie categorie = new Categorie(0, "Châpeau");
+            _mockCategorieRepository.Setup(m => m.GetByLibelleAsync(It.IsAny<string>()))
+                .Returns(getByLibelle(categorie.Libelle));
+            var maxId = _listeCategories.Any() ? _listeCategories.Max(c => c.Id):0;
+           
+            _mockCategorieRepository.Setup(m => m.MaxId()).Returns(maxId);
+
             Categorie categorieRetour = null;
             _mockCategorieRepository.Setup(x => x.AddAsync(It.IsAny<Categorie>()))
                 .Callback<Categorie>(
@@ -86,6 +97,8 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         public async Task Test_AddCategorie_Leve_Exception_De_Type_RecordAlreadyExistException()
         {
             Categorie categorie = new Categorie(6, "Maillot");
+            _mockCategorieRepository.Setup(m => m.GetByLibelleAsync(It.IsAny<string>()))
+                .Returns(getByLibelle(categorie.Libelle));
             var ex = await Assert.ThrowsAsync<RecordAlreadyExistException>(() => _categorieService.AddCategorie(categorie));
             Assert.Equal("Cet enregistrement existe déjà.", ex.Message);
         }
@@ -120,11 +133,21 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         {
             _mockCategorieRepository.Setup(m => m.GetByIdAsync(It.IsAny<int>()))
               .Returns(GetCategorieById(exception == "RecordNotFoundException" ? 20 : 5));
-            
+
             if (exception == "RecordNotFoundException")
+            {
+                _mockCategorieRepository.Setup(m => m.GetByLibelleWithNoIdAsync(It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(getByLibelleWithNoId(20, "Coronavirus"));
                 await Assert.ThrowsAsync<RecordNotFoundException>(() => _categorieService.UpdateCategorie(20, "Coronavirus"));
+
+            }
             else
+            {
+                _mockCategorieRepository.Setup(m => m.GetByLibelleWithNoIdAsync(It.IsAny<int>(), It.IsAny<string>()))
+               .Returns(getByLibelleWithNoId(5, "Maillot"));
                 await Assert.ThrowsAsync<RecordAlreadyExistException>(() => _categorieService.UpdateCategorie(5, "Maillot"));
+
+            }
         }
 
         [Theory]
@@ -171,6 +194,22 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
         {
             _listeCategories = new List<Categorie>();
             return _listeCategories;
+        }
+
+        private async Task<int> GetRowsCount()
+        {
+            _rowsCount = _listeCategories.Count();
+            return _rowsCount;
+        }
+        private Categorie getByLibelle(string libelle)
+        {
+            return _listeCategories.Where(c => c.Libelle == libelle).FirstOrDefault();
+        }
+
+        private Categorie getByLibelleWithNoId(int id, string libelle)
+        {
+            return _listeCategories.Where(c => c.Libelle == libelle
+                      && c.Id != id).FirstOrDefault();
         }
     }
 }

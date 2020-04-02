@@ -1,6 +1,8 @@
 ﻿using NetCoreApp.Core.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,51 +16,46 @@ namespace NetCoreApp.Infrastructure.Data
             {
                 if (!dbContext.Categories.Any())
                 {
-                    dbContext.Categories.AddRange(GetCategories());
+                    dbContext.Categories.AddRange(GetCategoriesFromJsonFile());
                     await dbContext.SaveChangesAsync();
                 }
 
                 if (!dbContext.Articles.Any())
                 {
-                    dbContext.Articles.AddRange(GetArticles());
+                    dbContext.Articles.AddRange(GetArticlesFromJsonFile());
                     await dbContext.SaveChangesAsync();
                 }
-
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        private static IEnumerable<Categorie> GetCategories()
+  
+        public static IEnumerable<Categorie> GetCategoriesFromJsonFile()
         {
-            return new List<Categorie>()
+            List<Categorie> categories = new List<Categorie>();
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "JsonFiles", "Categorie.json");
+            if (File.Exists(file))
             {
-                new Categorie(1,"Teeshirt"),
-                new Categorie(2,"Pantalon"),
-                new Categorie(3,"Maillot"),
-                new Categorie(4,"Chaussure"),
-                new Categorie(5,"Chaussette"),
-                new Categorie(6,"Châpeau"),
-                new Categorie(7,"Ballon"),
-                new Categorie(8,"Sifflet"),
-                new Categorie(9,"TV"),
-                new Categorie(10,"PC")
-            };
+                var json = File.ReadAllText(file);
+                categories = JsonConvert.DeserializeObject<List<Categorie>>(json);
+            }
+            return categories;
         }
 
-        private static IEnumerable<Article> GetArticles()
+        private static IEnumerable<Article> GetArticlesFromJsonFile()
         {
-            return new List<Article>()
+            List<Article> articles = new List<Article>();
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "JsonFiles", "Article.json");
+            if (File.Exists(file))
             {
-                new Article(1,"Polo Lacoste",10,35,1),
-                new Article(2,"Polo Tommy HilFiger",20,75,1),
-                new Article(3,"Polo Ralph Laurent",5,5,1)
-
-            };
+                var json = File.ReadAllText(file);
+                articles = JsonConvert.DeserializeObject<List<Article>>(json);
+            }
+            return articles;
         }
-
-
     }
 }

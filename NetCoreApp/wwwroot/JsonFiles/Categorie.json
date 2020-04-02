@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "Libelle": "Teeshirt"
+  },
+  {
+    "Id": 2,
+    "Libelle": "Pantalon"
+  },
+  {
+    "Id": 3,
+    "Libelle": "Maillot"
+  },
+  {
+    "Id": 4,
+    "Libelle": "Chaussure"
+  },
+  {
+    "Id": 5,
+    "Libelle": "Chaussette"
+  },
+  {
+    "Id": 6,
+    "Libelle": "Chapeau"
+  },
+  {
+    "Id": 7,
+    "Libelle": "Ballon"
+  },
+  {
+    "Id": 8,
+    "Libelle": "Sifflet"
+  },
+  {
+    "Id": 9,
+    "Libelle": "TV"
+  },
+  {
+    "Id": 10,
+    "Libelle": "PC"
+  }
+]
