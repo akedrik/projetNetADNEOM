@@ -17,6 +17,7 @@ namespace NetCoreApp.Core.Services
         {
             _categorieRepository = categorieRepository;
         }
+        
         public async Task AddCategorie(Categorie categorie)
         {
             var rowsCount = await _categorieRepository.CountAsync();

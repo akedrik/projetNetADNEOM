@@ -64,6 +64,7 @@ namespace NetCoreApp
 
             services.Configure<RequestLocalizationOptions>(opts =>
             {
+               
                 var supportedCultures = new List<CultureInfo> {
                     new CultureInfo("en"),
                     new CultureInfo("fr")
