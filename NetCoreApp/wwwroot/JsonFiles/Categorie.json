@@ -1,42 +1,52 @@
 [
   {
-    "Id": 1,
-    "Libelle": "Teeshirt"
+    "Libelle": "Teeshirt",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 2,
-    "Libelle": "Pantalon"
+    "Libelle": "Pantalon",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 3,
-    "Libelle": "Maillot"
+    "Libelle": "Maillot",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 4,
-    "Libelle": "Chaussure"
+    "Libelle": "Chaussure",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 5,
-    "Libelle": "Chaussette"
+    "Libelle": "Chaussette",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 6,
-    "Libelle": "Chapeau"
+    "Libelle": "Chapeau",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 7,
-    "Libelle": "Ballon"
+    "Libelle": "Ballon",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 8,
-    "Libelle": "Sifflet"
+    "Libelle": "Sifflet",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 9,
-    "Libelle": "TV"
+    "Libelle": "TV",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 10,
-    "Libelle": "PC"
+    "Libelle": "PC",
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   }
 ]

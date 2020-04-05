@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NetCoreApp.Infrastructure.Data;
+using NetCoreApp.Infrastructure.Identity;
 using System;
 using System.Threading.Tasks;
 
@@ -21,6 +23,10 @@ namespace NetCoreApp
                 {
                     var netCoreAppContext = services.GetRequiredService<NetCoreAppContext>();
                     await NetCoreAppContextSeed.SeedAsync(netCoreAppContext);
+
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

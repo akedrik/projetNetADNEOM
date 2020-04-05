@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreApp.Pages.Categorie
 {
+    [Authorize]
     public class createModel : PageModel
     {
         private readonly IHttpClientFactory _clientFactory;

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ using NetCoreApp.Core.Interfaces.Services;
 using NetCoreApp.Core.Services;
 using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
+using NetCoreApp.Infrastructure.Identity;
 using NetCoreApp.Infrastructure.Logging;
 using Serilog;
 using System;
@@ -34,9 +37,21 @@ namespace NetCoreApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //ConfigureCookieSettings(services);
+            CreateIdentityIfNotCreated(services);
+
             // use in-memory database
-            services.AddDbContext<NetCoreAppContext>(c =>
-                c.UseInMemoryDatabase("NetCoreApp"));
+            /* services.AddDbContext<NetCoreAppContext>(c =>
+                 c.UseInMemoryDatabase("NetCoreApp"));*/
+
+            //Use SQL SERVER
+            services.AddDbContext<NetCoreAppContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("NetCoreAppConnection")));
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("NetCoreAppConnection")));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<ICategorieService, CategorieService>();
@@ -64,7 +79,7 @@ namespace NetCoreApp
 
             services.Configure<RequestLocalizationOptions>(opts =>
             {
-               
+
                 var supportedCultures = new List<CultureInfo> {
                     new CultureInfo("en"),
                     new CultureInfo("fr")
@@ -85,12 +100,14 @@ namespace NetCoreApp
             services.AddLogging(configure => configure.AddSerilog());
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -108,13 +125,15 @@ namespace NetCoreApp
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseSession();
 
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
-
-            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {
@@ -125,6 +144,44 @@ namespace NetCoreApp
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "NetCoreApp API V1");
+            });
+        }
+
+        private static void CreateIdentityIfNotCreated(IServiceCollection services)
+        {
+            var sp = services.BuildServiceProvider();
+            using (var scope = sp.CreateScope())
+            {
+                var existingUserManager = scope.ServiceProvider
+                    .GetService<UserManager<ApplicationUser>>();
+                if (existingUserManager == null)
+                {
+                    services.AddIdentity<ApplicationUser, IdentityRole>()
+                        .AddDefaultUI()
+                        .AddEntityFrameworkStores<AppIdentityDbContext>()
+                                        .AddDefaultTokenProviders();
+                }
+            }
+        }
+
+        private static void ConfigureCookieSettings(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.Cookie = new CookieBuilder
+                {
+                    IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
+                };
             });
         }
     }

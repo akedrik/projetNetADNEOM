@@ -1,23 +1,26 @@
 [
   {
-    "Id": 1,
     "Libelle": "Polo Lacoste",
     "Prix": 10,
     "Stock": 35,
-    "CategorieId": 1
+    "CategorieId": 1,
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 2,
     "Libelle": "Polo Tommy HilFiger",
     "Prix": 20,
     "Stock": 75,
-    "CategorieId": 1
+    "CategorieId": 1,
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   },
   {
-    "Id": 3,
     "Libelle": "Polo Ralph Laurent",
     "Prix": 5,
     "Stock": 5,
-    "CategorieId": 1
+    "CategorieId": 1,
+    "DateSaisie": "2020-04-03 16:01:56",
+    "DateModification": "2020-04-03 16:01:56"
   }
 ]

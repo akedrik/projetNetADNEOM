@@ -7,8 +7,8 @@ namespace NetCoreApp.Core.Entities
     {
        
         public virtual int Id { get;  set; }
-        public virtual DateTime DateSaisie { get; set; }
-        public virtual DateTime DateModification { get; set; }
+        public virtual DateTime? DateSaisie { get; set; }
+        public virtual DateTime? DateModification { get; set; }
 
         public virtual void UpdateDateModification() => DateModification = DateTime.Now;
     }
