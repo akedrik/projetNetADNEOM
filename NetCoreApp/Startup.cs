@@ -89,6 +89,13 @@ namespace NetCoreApp
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
 
+            services.AddAuthentication()
+               .AddFacebook(facebookOptions =>
+               {
+                   facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                   facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+               });
+
             services.Configure<RequestLocalizationOptions>(opts =>
             {
 
@@ -110,6 +117,8 @@ namespace NetCoreApp
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NetCoreApp API", Version = "v1" });
             });
             services.AddLogging(configure => configure.AddSerilog());
+
+           
         }
 
 
