@@ -34,16 +34,20 @@ namespace NetCoreApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            //ConfigureCookieSettings(services);
-            CreateIdentityIfNotCreated(services);
-
             // use in-memory database
-            /* services.AddDbContext<NetCoreAppContext>(c =>
-                 c.UseInMemoryDatabase("NetCoreApp"));*/
+            services.AddDbContext<NetCoreAppContext>(c =>
+                 c.UseInMemoryDatabase("NetCoreApp"));
 
+            services.AddDbContext<AppIdentityDbContext>(c =>
+                 c.UseInMemoryDatabase("NetCoreAppAppIdentity"));
+
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
             //Use SQL SERVER
             services.AddDbContext<NetCoreAppContext>(options =>
                 options.UseSqlServer(
@@ -52,6 +56,14 @@ namespace NetCoreApp
             services.AddDbContext<AppIdentityDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("NetCoreAppConnection")));
+
+            ConfigureServices(services);
+        }
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //ConfigureCookieSettings(services);
+            CreateIdentityIfNotCreated(services);
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<ICategorieService, CategorieService>();

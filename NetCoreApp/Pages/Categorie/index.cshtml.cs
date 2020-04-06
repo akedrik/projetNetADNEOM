@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreApp.Pages.Categorie
 {
-    [Authorize]
+   [Authorize]
     public class indexModel : PageModel
     {
         private readonly IHttpClientFactory _clientFactory;
