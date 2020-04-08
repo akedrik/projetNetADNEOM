@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Interfaces.EmailSender;
 using NetCoreApp.Infrastructure.Identity;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;

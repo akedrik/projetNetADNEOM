@@ -10,18 +10,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using NetCoreApp.Core.Entities;
+using NetCoreApp.Core.Interfaces.EmailSender;
 using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Interfaces.Services;
 using NetCoreApp.Core.Services;
 using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
+using NetCoreApp.Infrastructure.EmailSender;
 using NetCoreApp.Infrastructure.Identity;
 using NetCoreApp.Infrastructure.Logging;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace NetCoreApp
 {
@@ -62,7 +66,7 @@ namespace NetCoreApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //ConfigureCookieSettings(services);
+            ConfigureCookieSettings(services);
             CreateIdentityIfNotCreated(services);
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
@@ -70,6 +74,9 @@ namespace NetCoreApp
             services.AddScoped<ICategorieRepository, CategorieRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            
+            services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddHttpClient();
             services.AddControllers();
@@ -94,6 +101,12 @@ namespace NetCoreApp
                {
                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                   facebookOptions.Events.OnRemoteFailure = ftx =>
+                   {
+                       ftx.Response.Redirect("/");
+                       ftx.HandleResponse();
+                       return Task.FromResult(0);
+                   };
                });
 
             services.Configure<RequestLocalizationOptions>(opts =>
@@ -118,7 +131,7 @@ namespace NetCoreApp
             });
             services.AddLogging(configure => configure.AddSerilog());
 
-           
+
         }
 
 

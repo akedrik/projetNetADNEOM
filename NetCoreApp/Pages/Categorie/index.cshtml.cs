@@ -39,6 +39,8 @@ namespace NetCoreApp.Pages.Categorie
             {
                 Categories = new List<Core.Entities.Categorie>();
             }
+
+            
         }
 
 

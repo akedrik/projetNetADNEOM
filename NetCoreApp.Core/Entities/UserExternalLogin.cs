@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace NetCoreApp.Core.Entities
+﻿namespace NetCoreApp.Core.Entities
 {
-    public class UserExternalLogin
+    public class UserExternalLogin : User
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+
     }
 }

@@ -19,7 +19,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
 
         [BindProperty]
-        public User User { get; set; }
+        public UserLogin User { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
