@@ -4,79 +4,80 @@
 @{
     ViewData["Title"] = _localizer["Connexion"];
 }
-<div class="container account-login-container">
-    <h2>@ViewData["Title"]</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <section>
-                <form method="post">
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="User.Email"></label>
-                        <input asp-for="User.Email" class="form-control" />
-                        <span asp-validation-for="User.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="User.Password"></label>
-                        <input asp-for="User.Password" class="form-control" />
-                        <span asp-validation-for="User.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="User.RememberMe">
-                                <input asp-for="User.RememberMe" />
-                                @Html.DisplayNameFor(m => m.User.RememberMe)
-                            </label>
+    <div class="container account-login-container">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <section>
+                    <form  method="post">
+                        
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="_User.Email"></label>
+                            <input asp-for="_User.Email" class="form-control" />
+                            <span asp-validation-for="_User.Email" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">@_localizer["Se connecter"]</button>
-                    </div>
-                    <div class="form-group">
-                        <p>
-                            <a asp-page="./ForgotPassword">@_localizer["Mot de passe oublié ?"]</a>
-                        </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@_localizer["Nouveau - Inscription"]</a>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-    
-        <div class="col-md-6 col-md-offset-2">
-            <section>
-                <h4>@_localizer["Autres services de connexion."]</h4>
-                <hr />
-                @{
-                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                    {
-                        <div>
+                        <div class="form-group">
+                            <label asp-for="_User.Password"></label>
+                            <input asp-for="_User.Password" class="form-control" />
+                            <span asp-validation-for="_User.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="_User.RememberMe">
+                                    <input asp-for="_User.RememberMe" />
+                                    @Html.DisplayNameFor(m => m._User.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">@_localizer["Se connecter"]</button>
+                        </div>
+                        <div class="form-group">
                             <p>
-                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                                for details on setting up this ASP.NET application to support logging in via external services.
+                                <a asp-page="./ForgotPassword">@_localizer["Mot de passe oublié ?"]</a>
+                            </p>
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@_localizer["Nouveau - Inscription"]</a>
                             </p>
                         </div>
-                    }
-                    else
-                    {
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    </form>
+                </section>
+            </div>
+
+            <div class="col-md-6 col-md-offset-2">
+                <section>
+                    <h4>@_localizer["Autres services de connexion."]</h4>
+
+                    @{
+                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                        {
                             <div>
                                 <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
+                                    There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                    for details on setting up this ASP.NET application to support logging in via external services.
                                 </p>
                             </div>
-                        </form>
+                        }
+                        else
+                        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
                     }
-                }
-            </section>
+                </section>
+            </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

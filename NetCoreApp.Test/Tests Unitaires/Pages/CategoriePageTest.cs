@@ -3,6 +3,7 @@ using Moq;
 using Moq.Protected;
 using NetCoreApp.Core.Entities;
 using NetCoreApp.Pages.Categorie;
+using NetCoreApp.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -62,12 +63,12 @@ namespace NetCoreApp.Test.Tests_Unitaires.Pages
             _httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act  
-            var controller = new indexModel(_httpClientFactory.Object, _configuration);
-            await controller.OnGetAsync();
+            var controller = new CategoriePageService(_httpClientFactory.Object, _configuration);
+            var categories = await controller.GetCategories();
 
             //Assert
             _httpClientFactory.Verify(f => f.CreateClient(It.IsAny<String>()), Times.Once);
-            Assert.Equal(5, controller.Categories.Count);
+            Assert.Equal(5, categories.Count);
         }
     }
 }

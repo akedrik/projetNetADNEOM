@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using NetCoreApp.Core.Interfaces.Services.Pages;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
@@ -12,8 +13,7 @@ namespace NetCoreApp.Pages.Categorie
     [Authorize]
     public class createModel : PageModel
     {
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly IConfiguration _configuration;
+        private readonly ICategoriePageService _categoriePageService;
 
         [BindProperty]
         public NetCoreApp.Core.Entities.Categorie Categorie { get; set; }
@@ -22,23 +22,13 @@ namespace NetCoreApp.Pages.Categorie
 
         public string Message { get; set; }
 
-        public createModel(IHttpClientFactory clientFactory, IConfiguration configuration)
+        public createModel(ICategoriePageService categoriePageService)
         {
-            _clientFactory = clientFactory;
-            _configuration = configuration;
+            _categoriePageService = categoriePageService;
         }
         public async Task OnGet()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get,
-           _configuration["ApiBaseUrl"] + "categorie/" + Id);
-
-            var client = _clientFactory.CreateClient();
-            var response = await client.SendAsync(request);
-            if (response.IsSuccessStatusCode)
-            {
-                var stringResponse = await response.Content.ReadAsStringAsync();
-                Categorie = JsonConvert.DeserializeObject<Core.Entities.Categorie>(stringResponse);
-            }
+            Categorie = await _categoriePageService.GetCategorieById(Id);
         }
         public async Task<IActionResult> OnPostAsync()
         {
@@ -48,23 +38,10 @@ namespace NetCoreApp.Pages.Categorie
                 return Page();
             }
 
-            var content = JsonConvert.SerializeObject(Categorie);
-            var client = _clientFactory.CreateClient();
-            HttpResponseMessage response = new HttpResponseMessage();
-            if (Id == 0)
+            var statut = await _categoriePageService.SaveCategorie(Id, Categorie);
+            if (!string.IsNullOrEmpty(statut))
             {
-                response = await client.PostAsync(_configuration["ApiBaseUrl"] + "categorie",
-                new StringContent(content, Encoding.UTF8, "application/json"));
-            }
-            else
-            {
-                response = await client.PutAsync(_configuration["ApiBaseUrl"] + "categorie/" + Id.ToString(),
-                new StringContent(content, Encoding.UTF8, "application/json"));
-            }
-
-            if (!response.IsSuccessStatusCode)
-            {
-                Message = await response.Content.ReadAsStringAsync();
+                Message = statut;
                 return Page();
             }
             return RedirectToPage("./Index");

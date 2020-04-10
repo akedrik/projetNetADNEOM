@@ -1,0 +1,53 @@
+﻿@page
+@model NetCoreApp.Pages.Article.indexModel
+@{
+    ViewData["Title"] = _localizer["Articles"];
+    ViewBag.Current = EnumMenu.Article;
+}
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>
+}
+<h2>@_localizer["Listes des articles"]</h2>
+<div class=".mt-2">
+    <a asp-page="/Article/Create"> <button class="btn btn-primary float-right">@_localizer["Ajouter"]</button></a>
+    <form id="frm" method="post">
+
+        <table id="example" class="table table-hover table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">@_localizer["Id"]</th>
+                    <th scope="col">@_localizer["Libelle"]</th>
+                    <th scope="col">@_localizer["Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (NetCoreApp.Core.Entities.Article article in Model.Articles)
+                {
+                <tr>
+                    <td>@article.Id</td>
+                    <td>@article.Libelle</td>
+                    <td>
+                        <a asp-page="/Article/Create" asp-route-id="@article.Id">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <button type="submit"
+                                onclick="return confirm('@_localizer["Êtes-vous sûr de vouloir supprimer cet élement ?"]')"
+                                asp-page-handler="delete"
+                                asp-route-id="@article.Id">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+</div>
+

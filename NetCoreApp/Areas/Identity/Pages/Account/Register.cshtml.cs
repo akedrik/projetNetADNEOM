@@ -18,7 +18,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         [BindProperty]
-        public UserRegister User { get; set; }
+        public UserRegister _User { get; set; }
         public string ReturnUrl { get; set; }
 
         public RegisterModel(UserManager<ApplicationUser> userManager,
@@ -41,8 +41,8 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = User.Email, Email = User.Email };
-                var result = await _userManager.CreateAsync(user, User.Password);
+                var user = new ApplicationUser { UserName = _User.Email, Email = _User.Email };
+                var result = await _userManager.CreateAsync(user, _User.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -54,8 +54,8 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(User.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(_User.Email, "Confirmez votre adresse Email",
+                        $"Veuillez confirmer votre compte en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant ici</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);

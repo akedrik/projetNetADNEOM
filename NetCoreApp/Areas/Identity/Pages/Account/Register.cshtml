@@ -15,19 +15,19 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="User.Email"></label>
-                    <input asp-for="User.Email" class="form-control" />
-                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                    <label asp-for="_User.Email"></label>
+                    <input asp-for="_User.Email" class="form-control" />
+                    <span asp-validation-for="_User.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="User.Password"></label>
-                    <input asp-for="User.Password" class="form-control" />
-                    <span asp-validation-for="User.Password" class="text-danger"></span>
+                    <label asp-for="_User.Password"></label>
+                    <input asp-for="_User.Password" class="form-control" />
+                    <span asp-validation-for="_User.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="User.ConfirmPassword"></label>
-                    <input asp-for="User.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="User.ConfirmPassword" class="text-danger"></span>
+                    <label asp-for="_User.ConfirmPassword"></label>
+                    <input asp-for="_User.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="_User.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">@_localizer["S'incrire"]</button>
             </form>

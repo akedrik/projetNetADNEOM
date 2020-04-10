@@ -21,7 +21,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         [BindProperty]
-        public UserExternalLogin User { get; set; }
+        public UserExternalLogin _User { get; set; }
        
         public string ProviderDisplayName { get; set; }
         
@@ -83,7 +83,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
-                    User = new UserExternalLogin
+                    _User = new UserExternalLogin
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
@@ -106,7 +106,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 //var user = CreateUser();
-                var user = new ApplicationUser { UserName = User.Email, Email = User.Email };
+                var user = new ApplicationUser { UserName = _User.Email, Email = _User.Email };
 
                 //await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

@@ -15,12 +15,14 @@ using NetCoreApp.Core.Interfaces.EmailSender;
 using NetCoreApp.Core.Interfaces.Logging;
 using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Interfaces.Services;
+using NetCoreApp.Core.Interfaces.Services.Pages;
 using NetCoreApp.Core.Services;
 using NetCoreApp.Infrastructure.Data;
 using NetCoreApp.Infrastructure.Data.Repositories;
 using NetCoreApp.Infrastructure.EmailSender;
 using NetCoreApp.Infrastructure.Identity;
 using NetCoreApp.Infrastructure.Logging;
+using NetCoreApp.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -71,15 +73,21 @@ namespace NetCoreApp
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<ICategorieService, CategorieService>();
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategorieRepository, CategorieRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<ICategoriePageService, CategoriePageService>();
+            services.AddScoped<IArticlePageService, ArticlePageService>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             
             services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddHttpClient();
             services.AddControllers();
+
+            services.AddHttpContextAccessor();
 
             services.AddLocalization(opts =>
             {

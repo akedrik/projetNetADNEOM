@@ -19,7 +19,7 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
 
         [BindProperty]
-        public UserLogin User { get; set; }
+        public UserLogin _User { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -58,8 +58,8 @@ namespace NetCoreApp.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(User.Email,
-                    User.Password, User.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(_User.Email,
+                    _User.Password, _User.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

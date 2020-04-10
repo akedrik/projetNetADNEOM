@@ -66,7 +66,6 @@ namespace NetCoreApp.Infrastructure.EmailSender
             }
             catch (Exception ex)
             {
-                // TODO: handle exception
                 throw new InvalidOperationException(ex.Message);
             }
         }

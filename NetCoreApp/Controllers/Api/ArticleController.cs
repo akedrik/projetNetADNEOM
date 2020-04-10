@@ -1,42 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Exceptions;
 using NetCoreApp.Core.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NetCoreApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategorieController : ControllerBase
+    public class ArticleController : ControllerBase
     {
-        private readonly ICategorieService _categorieService;
+        private readonly IArticleService _articleService;
 
-        public CategorieController(ICategorieService categorieService)
+        public ArticleController(IArticleService articleService)
         {
-            _categorieService = categorieService;
+            _articleService = articleService;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Categorie>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Article>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
         {
-            var result = await _categorieService.GetAllCategories();
+            var result = await _articleService.GetAllArticles();
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Categorie), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Article), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _categorieService.GetCategorieById(id);
+            var result = await _articleService.GetArticleById(id);
             if (result == null)
                 return NotFound();
 
@@ -47,19 +48,20 @@ namespace NetCoreApp.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody]Categorie categorie)
+        public async Task<IActionResult> Post([FromBody]Article article)
         {
             try
             {
-                await _categorieService.AddCategorie(categorie);
+                await _articleService.AddArticle(article);
                 return Ok();
-            }catch(RecordAlreadyExistException ex)
+            }
+            catch (RecordAlreadyExistException ex)
             {
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -67,11 +69,11 @@ namespace NetCoreApp.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, [FromBody]Categorie categorie)
+        public async Task<IActionResult> Put(int id, [FromBody]Article article)
         {
             try
             {
-                await _categorieService.UpdateCategorie(id, categorie.Libelle);
+                await _articleService.UpdateArticle(article);
                 return Ok();
             }
             catch (RecordAlreadyExistException ex)
@@ -84,7 +86,7 @@ namespace NetCoreApp.Controllers.Api
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -96,7 +98,7 @@ namespace NetCoreApp.Controllers.Api
         {
             try
             {
-                await _categorieService.DeleteCategorie(id);
+                await _articleService.DeleteArticle(id);
                 return Ok();
             }
             catch (RecordNotFoundException ex)

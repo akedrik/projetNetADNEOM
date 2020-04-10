@@ -135,7 +135,7 @@ namespace NetCoreApp.Test.Tests_Unitaires.Api
 
         private async Task<IEnumerable<Categorie>> GetCategories()
         {
-            _listeCategories = new List<Categorie>()
+            _listeCategories =  new List<Categorie>()
             {
                 new Categorie(1,"Teeshirt"),
                 new Categorie(2,"Pantalon"),
@@ -143,17 +143,20 @@ namespace NetCoreApp.Test.Tests_Unitaires.Api
                 new Categorie(4,"Chaussure"),
                 new Categorie(5,"Chaussette")
             };
+            await Task.CompletedTask;
             return _listeCategories;
         }
 
         private async Task<Categorie> GetCategorieById(int id)
         {
             _categorie = _listeCategories.Where(c => c.Id == id).FirstOrDefault();
+            await Task.CompletedTask;
             return _categorie;
         }
 
         private async Task<bool> GetValueActionResult(bool value)
         {
+            await Task.CompletedTask;
             return value;
         }
     }

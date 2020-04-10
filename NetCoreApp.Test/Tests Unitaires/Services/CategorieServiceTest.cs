@@ -182,23 +182,27 @@ namespace NetCoreApp.Test.Tests_Unitaires.Services
                 new Categorie(4,"Chaussure"),
                 new Categorie(5,"Chaussette")
             };
+            await Task.CompletedTask;
             return _listeCategories;
         }
 
         private async Task<Categorie> GetCategorieById(int id)
         {
+            await Task.CompletedTask;
             return _listeCategories.Where(c => c.Id == id).FirstOrDefault();
         }
 
         private async Task<IEnumerable<Categorie>> GetCategoriesVides()
         {
             _listeCategories = new List<Categorie>();
+            await Task.CompletedTask;
             return _listeCategories;
         }
 
         private async Task<int> GetRowsCount()
         {
             _rowsCount = _listeCategories.Count();
+            await Task.CompletedTask;
             return _rowsCount;
         }
         private Categorie getByLibelle(string libelle)

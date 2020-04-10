@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NetCoreApp.Core.Entities
@@ -8,15 +9,22 @@ namespace NetCoreApp.Core.Entities
         [Required]
         [StringLength(250)]
         public string Libelle { get; set; }
+
         [Required]
         [Range(0, int.MaxValue)]
         public double Prix { get; set; }
+
         [Required]
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }
+
+        public string Image { get; set; }
+
         [Required]
+        [Display(Name ="Catégorie")]
         public int CategorieId { get; set; }
-        public Categorie Categorie { get; set; }
+
+        public Categorie Categorie { get; set; }       
 
         public Article() { }
 
@@ -30,5 +38,6 @@ namespace NetCoreApp.Core.Entities
             DateSaisie = DateTime.Now;
             DateModification = DateTime.Now;
         }
+        public void SetId(int id) => Id = id;
     }
 }
