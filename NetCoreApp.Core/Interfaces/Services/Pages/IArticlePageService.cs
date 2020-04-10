@@ -14,5 +14,7 @@ namespace NetCoreApp.Core.Interfaces.Services.Pages
         Task<Article> GetArticleById(int id);
         Task SaveFile(IFormFile FormFile, Article article);
         Task<string> SaveArticle(int id, IFormFile FormFile, Article article);
+
+       
     }
 }

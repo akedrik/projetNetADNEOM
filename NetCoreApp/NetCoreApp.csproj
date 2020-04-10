@@ -31,4 +31,7 @@
   <ItemGroup>
     <None Include="wwwroot\JsonFiles\Categorie.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\articles\" />
+  </ItemGroup>
 </Project>

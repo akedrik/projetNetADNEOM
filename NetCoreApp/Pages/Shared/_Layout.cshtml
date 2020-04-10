@@ -24,9 +24,9 @@ DOCTYPE html>
                 <li class="nav-item @( ViewBag.Current == EnumMenu.Categorie?"active":"" )">
                     <a class="nav-link" asp-page="/Categorie/Index">@_localizer["Catégorie"]</a>
                 </li>
-               <li class="nav-item @( ViewBag.Current == EnumMenu.Article?"active":"" )">
-                <a class="nav-link" asp-page="/Article/Index">Article</a>
-            </li>
+                <li class="nav-item @( ViewBag.Current == EnumMenu.Article?"active":"" )">
+                    <a class="nav-link" asp-page="/Article/Index">Article</a>
+                </li>
             </ul>
             <partial name="_LoginPartial" />
             <partial name="_SelectLanguagePartial" />

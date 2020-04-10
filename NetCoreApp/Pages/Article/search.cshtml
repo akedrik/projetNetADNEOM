@@ -1,0 +1,20 @@
+﻿@page
+@using NetCoreApp.Components.Article
+@model NetCoreApp.Pages.Article.searchModel
+@{
+    ViewData["Title"] = _localizer["Recherche - Articles"];
+    ViewBag.Current = EnumMenu.Article;
+}
+@section css{
+    <base href="~/" />
+}
+@section scripts{
+    <partial name="_BlazorScriptPartial" />
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class=".mt-2">
+    @( await Html.RenderComponentAsync<ArticleList>(RenderMode.ServerPrerendered))
+</div>
+
+

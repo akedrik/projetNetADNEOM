@@ -72,6 +72,8 @@ namespace NetCoreApp.Services
             return articles;
         }
 
+       
+
         public async Task<string> SaveArticle(int id, IFormFile FormFile, Article article)
         {
             var message = "";

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreApp.Pages.Article
 {
+    [Authorize]
     public class createModel : PageModel
     {
         private readonly IArticlePageService _articlePageService;

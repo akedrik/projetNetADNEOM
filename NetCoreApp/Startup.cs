@@ -117,6 +117,7 @@ namespace NetCoreApp
                    };
                });
 
+            services.AddServerSideBlazor();
             services.Configure<RequestLocalizationOptions>(opts =>
             {
 
@@ -181,6 +182,7 @@ namespace NetCoreApp
             {
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
             });
             app.UseSwagger();
             app.UseSwaggerUI(c =>

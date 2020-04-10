@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using NetCoreApp.Core.Interfaces.Services.Pages
+@using NetCoreApp.Core.Entities
+@inject IArticlePageService _articlePageService
+
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <input placeholder="Rechercher un article" @bind-value="Search" @bind-value:event="oninput" class="form-control" />
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <button class="btn btn-primary"
+                    type="button"
+                    @onclick="GetArticleByLibelle">
+                Rechercher
+            </button>
+        </div>
+        </div>
+    </div>
+
+<div class="list-group">
+
+    @if (@Articles != null)
+    {
+        foreach (var article in @Articles)
+        {
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@article.Libelle</h5>
+                    <small> @article.DateSaisie</small>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="mb-1"> Prix : @article.Prix €</p>
+                        <p class="mb-1"> Stock : @article.Stock</p>
+                        <p class="mb-1"> Catégorie : @article.CategorieId</p>
+                        <small class="text-muted">
+                            <button class="btn btn-primary"> Détails</button>
+                        </small>
+                    </div>
+                    <div class="col">
+                        <img src="@article.Image" class="img-thumbnail rounded float-left"
+                             height="100" width="100" alt="@article.Image">
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+@code {
+
+    public List<Article> Articles { get; set; }
+    public string Search { get; set; }
+
+    public async Task GetArticlesAsync()
+    {
+        Articles = new List<Article>();
+        Articles = await _articlePageService.GetArticles();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetArticlesAsync();
+    }
+
+    public async Task GetArticleByLibelle()
+    {
+        Articles = new List<Article>();
+        Article article = new Article();
+
+        article = await _articlePageService.GetArticleById(int.Parse( Search));
+        if (!string.IsNullOrEmpty( article.Libelle)) Articles.Add(article);
+    }
+}
