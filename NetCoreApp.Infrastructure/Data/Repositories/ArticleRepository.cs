@@ -1,7 +1,10 @@
-﻿using NetCoreApp.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NetCoreApp.Infrastructure.Data.Repositories
 {
@@ -12,7 +15,20 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
         {
 
         }
+        public override  async Task<IEnumerable<Article>> ListAllAsync()
+        {
+            await Task.CompletedTask;
+            return _dbContext.Articles.Include(a => a.Categorie).ToList();
+        }
 
+        public override async Task<Article> GetByIdAsync(int id)
+        {
+            await Task.CompletedTask;
+            return _dbContext.Articles.Include(a => a.Categorie)
+                     .Where(a => a.Id == id).FirstOrDefault();
+        }
+
+        
         public Article GetByLibelleAsync(string libelle)
         {
             return _dbContext.Articles.

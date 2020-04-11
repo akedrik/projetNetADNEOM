@@ -10,6 +10,7 @@ namespace NetCoreApp.Core.Interfaces.Services
         Task UpdateArticle(Article article);
         Task DeleteArticle(int id);
         Task<IEnumerable<Article>> GetAllArticles();
+
         Task<Article> GetArticleById(int id);
     }
 }

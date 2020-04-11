@@ -24,7 +24,7 @@ namespace NetCoreApp.Core.Entities
         [Display(Name ="Catégorie")]
         public int CategorieId { get; set; }
 
-        public Categorie Categorie { get; set; }       
+        public virtual Categorie Categorie { get; set; }       
 
         public Article() { }
 

@@ -13,7 +13,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
     public class EFRepositoryTest
     {
         private readonly NetCoreAppContext _dbContext;
-        private readonly IAsyncRepository<Categorie> _categorieRepository;
+        private readonly ICategorieRepository _categorieRepository;
         private Categorie _categorie;
         private List<Categorie> _categories;
         private const int NOMBRE_INSERTION = 5;
@@ -24,7 +24,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
                 .UseInMemoryDatabase(databaseName: "TestNetCoreAppEF")
                 .Options;
             _dbContext = new NetCoreAppContext(dbOptions);
-            _categorieRepository = new EfRepository<Categorie>(_dbContext);
+            _categorieRepository = new CategorieRepository(_dbContext);
             _categories = new List<Categorie>();
 
             for (int i = 1; i <= NOMBRE_INSERTION; i++)

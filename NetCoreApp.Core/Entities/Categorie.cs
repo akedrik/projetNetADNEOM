@@ -11,7 +11,7 @@ namespace NetCoreApp.Core.Entities
             ErrorMessage ="La longeur du libellé doit entre 2 et 250 caratères.")]
         [Display(Name ="Libellé")]
         public string Libelle { get; set; }
-        public List<Article> Articles { get; set; }
+        public virtual List<Article> Articles { get; set; }
 
         public Categorie() { }       
         

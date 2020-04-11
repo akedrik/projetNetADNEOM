@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreApp.Infrastructure.Data.Repositories
 {
-    public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
+    public abstract class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
         protected readonly NetCoreAppContext _dbContext;
         public EfRepository(NetCoreAppContext dbContext)
@@ -15,7 +15,7 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<T> AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -23,17 +23,17 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
             return entity;
         }
 
-        public async Task<int> CountAsync(ISpecification<T> spec)
+        public virtual async Task<int> CountAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).CountAsync();
         }
 
-        public async Task<int> CountAsync()
+        public virtual async Task<int> CountAsync()
         {
             return await _dbContext.Set<T>().CountAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
@@ -44,17 +44,17 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> ListAllAsync()
+        public virtual async Task<IEnumerable<T>> ListAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        public virtual async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

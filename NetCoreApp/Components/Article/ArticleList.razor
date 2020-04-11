@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
-@using NetCoreApp.Core.Interfaces.Services.Pages
-@using NetCoreApp.Core.Entities
-@inject IArticlePageService _articlePageService
+@inherits ArticleListBase;
+
 
 <div class="row">
     <div class="col">
@@ -35,7 +34,7 @@
                     <div class="col">
                         <p class="mb-1"> Prix : @article.Prix €</p>
                         <p class="mb-1"> Stock : @article.Stock</p>
-                        <p class="mb-1"> Catégorie : @article.CategorieId</p>
+                        <p class="mb-1"> Catégorie : @article.Categorie.Libelle</p>
                         <small class="text-muted">
                             <button class="btn btn-primary"> Détails</button>
                         </small>
@@ -49,29 +48,3 @@
         }
     }
 </div>
-
-@code {
-
-    public List<Article> Articles { get; set; }
-    public string Search { get; set; }
-
-    public async Task GetArticlesAsync()
-    {
-        Articles = new List<Article>();
-        Articles = await _articlePageService.GetArticles();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await GetArticlesAsync();
-    }
-
-    public async Task GetArticleByLibelle()
-    {
-        Articles = new List<Article>();
-        Article article = new Article();
-
-        article = await _articlePageService.GetArticleById(int.Parse( Search));
-        if (!string.IsNullOrEmpty( article.Libelle)) Articles.Add(article);
-    }
-}

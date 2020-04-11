@@ -12,8 +12,8 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
     public class NetCoreAppContextSeedTest
     {
         private readonly NetCoreAppContext _dbContext;
-        private readonly IAsyncRepository<Categorie> _categorieRepository;
-        private readonly IAsyncRepository<Article> _articleRepository;
+        private readonly ICategorieRepository _categorieRepository;
+        private readonly IArticleRepository _articleRepository;
 
         public NetCoreAppContextSeedTest()
         {
@@ -21,8 +21,8 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
                 .UseInMemoryDatabase(databaseName: "TestNetCoreAppSeed")
                 .Options;
             _dbContext = new NetCoreAppContext(dbOptions);
-            _categorieRepository = new EfRepository<Categorie>(_dbContext);
-            _articleRepository = new EfRepository<Article>(_dbContext);
+            _articleRepository = new ArticleRepository(_dbContext);
+            _categorieRepository = new CategorieRepository(_dbContext);
         }
 
         [Fact]

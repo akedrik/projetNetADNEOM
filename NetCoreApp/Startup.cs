@@ -71,7 +71,6 @@ namespace NetCoreApp
             ConfigureCookieSettings(services);
             CreateIdentityIfNotCreated(services);
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<ICategorieService, CategorieService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategorieRepository, CategorieRepository>();
@@ -81,11 +80,14 @@ namespace NetCoreApp
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
-            
+
             services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddHttpClient();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddHttpContextAccessor();
 
