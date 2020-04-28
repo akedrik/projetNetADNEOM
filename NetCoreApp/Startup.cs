@@ -102,10 +102,24 @@ namespace NetCoreApp
                     options.Conventions.AddPageRoute("/Home/Index", "");
                 })
                 .AddSessionStateTempDataProvider()
-                .AddViewLocalization(opts => { opts.ResourcesPath = "Resources"; })
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+               // .AddViewLocalization(opts => { opts.ResourcesPath = "Resources"; })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
+                opts => { opts.ResourcesPath = "Resources"; })
                 .AddDataAnnotationsLocalization();
 
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var supportedCultures = new List<CultureInfo> {
+                    new CultureInfo("en"),
+                    new CultureInfo("fr")
+                  };
+
+                opts.DefaultRequestCulture = new RequestCulture("fr");
+                // Formatting numbers, dates, etc.
+                opts.SupportedCultures = supportedCultures;
+                // UI strings that we have localized.
+                opts.SupportedUICultures = supportedCultures;
+            });
             services.AddAuthentication()
                .AddFacebook(facebookOptions =>
                {
@@ -118,23 +132,8 @@ namespace NetCoreApp
                        return Task.FromResult(0);
                    };
                });
-
-            services.AddServerSideBlazor();
-            services.Configure<RequestLocalizationOptions>(opts =>
-            {
-
-                var supportedCultures = new List<CultureInfo> {
-                    new CultureInfo("en"),
-                    new CultureInfo("fr")
-                  };
-
-                opts.DefaultRequestCulture = new RequestCulture("fr");
-                // Formatting numbers, dates, etc.
-                opts.SupportedCultures = supportedCultures;
-                // UI strings that we have localized.
-                opts.SupportedUICultures = supportedCultures;
-            });
             services.AddSession();
+            services.AddServerSideBlazor();
 
             services.AddSwaggerGen(c =>
             {

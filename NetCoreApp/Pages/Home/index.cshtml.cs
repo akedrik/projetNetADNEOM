@@ -14,11 +14,24 @@ namespace NetCoreApp.Pages.Home
 
         public IActionResult OnPostSetLanguageAsync(string culture, string returnUrl)
         {
+            //Response.Cookies.Append(
+            //    CookieRequestCultureProvider.DefaultCookieName,
+            //    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            //    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            //);
+
             Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) }
-            );
+                       CookieRequestCultureProvider.DefaultCookieName,
+                       CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                       new CookieOptions
+                       {
+                           Expires = DateTimeOffset.UtcNow.AddYears(1),
+                           IsEssential = true,  //critical settings to apply new culture
+                           Path = "/",
+                           HttpOnly = false,
+                       }
+                );
+
             return LocalRedirect(returnUrl);
         }
     }
