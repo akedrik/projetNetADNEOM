@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces.Services.Pages;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NetCoreApp.Components.Article
 {
@@ -13,6 +10,7 @@ namespace NetCoreApp.Components.Article
         public List<NetCoreApp.Core.Entities.Article> Articles { get; set; }
         public string Search { get; set; }
         [Inject] IArticlePageService _articlePageService { get; set; }
+        [Inject] NavigationManager _navigationManager { get; set; }
 
         public async Task GetArticlesAsync()
         {
@@ -28,10 +26,15 @@ namespace NetCoreApp.Components.Article
         public async Task GetArticleByLibelle()
         {
             Articles = new List<NetCoreApp.Core.Entities.Article>();
-            NetCoreApp.Core.Entities.Article article = new NetCoreApp.Core.Entities.Article();
+            if (string.IsNullOrEmpty(Search))
+                Articles = await _articlePageService.GetArticles();
+            else
+                Articles = await _articlePageService.GetArticleContainsLibelle(Search);
+        }
 
-            article = await _articlePageService.GetArticleById(int.Parse(Search));
-            if (!string.IsNullOrEmpty(article.Libelle)) Articles.Add(article);
+        public void SelectArticle(int id)
+        {
+            _navigationManager.NavigateTo("/Article/Create/" + id, true);
         }
     }
 }

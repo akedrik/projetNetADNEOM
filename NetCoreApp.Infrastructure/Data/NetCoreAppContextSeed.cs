@@ -55,6 +55,7 @@ namespace NetCoreApp.Infrastructure.Data
                 var json = File.ReadAllText(file);
                 articles = JsonConvert.DeserializeObject<List<Article>>(json);
             }
+            articles.ForEach(a => a.Categorie = null);
             return articles;
         }
     }

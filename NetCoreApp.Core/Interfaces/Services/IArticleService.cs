@@ -12,5 +12,6 @@ namespace NetCoreApp.Core.Interfaces.Services
         Task<IEnumerable<Article>> GetAllArticles();
 
         Task<Article> GetArticleById(int id);
+        Task<IEnumerable<Article>> GetArticleContainsLibelle(string libelle);
     }
 }

@@ -1,26 +1,245 @@
 [
-  {
-    "Libelle": "Polo Lacoste",
-    "Prix": 10,
-    "Stock": 35,
-    "CategorieId": 1,
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Polo Tommy HilFiger",
-    "Prix": 20,
-    "Stock": 75,
-    "CategorieId": 1,
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Polo Ralph Laurent",
-    "Prix": 5,
-    "Stock": 5,
-    "CategorieId": 1,
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  }
+    {
+        "libelle": "PRAHO Polo Homme Manches Courtes - Blanc/Noir",
+        "prix": 10.0,
+        "stock": 35,
+        "image": "http://localhost:64781/uploads/articles/20200428_114249.jpg",
+        "categorieId": 1,
+        "categorie": {
+            "libelle": "Polo",
+            "articles": [
+                {
+                    "libelle": "Polo Haute Qualité Coton Colle Rayé Orange - Blanc",
+                    "prix": 20.0,
+                    "stock": 75,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114148.jpg",
+                    "categorieId": 1,
+                    "id": 2,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:41:48.2413279+02:00"
+                },
+                {
+                    "libelle": "T- Shirt Polo Classic -Noir",
+                    "prix": 3.0,
+                    "stock": 5,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114043.jpg",
+                    "categorieId": 1,
+                    "id": 3,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:40:43.7877271+02:00"
+                }
+            ],
+            "id": 1,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T11:38:57.4886184+02:00"
+        },
+        "id": 1,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T11:42:50.159526+02:00"
+    },
+    {
+        "libelle": "Polo Haute Qualité Coton Colle Rayé Orange - Blanc",
+        "prix": 20.0,
+        "stock": 75,
+        "image": "http://localhost:64781/uploads/articles/20200428_114148.jpg",
+        "categorieId": 1,
+        "categorie": {
+            "libelle": "Polo",
+            "articles": [
+                {
+                    "libelle": "PRAHO Polo Homme Manches Courtes - Blanc/Noir",
+                    "prix": 10.0,
+                    "stock": 35,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114249.jpg",
+                    "categorieId": 1,
+                    "id": 1,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:42:50.159526+02:00"
+                },
+                {
+                    "libelle": "T- Shirt Polo Classic -Noir",
+                    "prix": 3.0,
+                    "stock": 5,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114043.jpg",
+                    "categorieId": 1,
+                    "id": 3,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:40:43.7877271+02:00"
+                }
+            ],
+            "id": 1,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T11:38:57.4886184+02:00"
+        },
+        "id": 2,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T11:41:48.2413279+02:00"
+    },
+    {
+        "libelle": "T- Shirt Polo Classic -Noir",
+        "prix": 3.0,
+        "stock": 5,
+        "image": "http://localhost:64781/uploads/articles/20200428_114043.jpg",
+        "categorieId": 1,
+        "categorie": {
+            "libelle": "Polo",
+            "articles": [
+                {
+                    "libelle": "PRAHO Polo Homme Manches Courtes - Blanc/Noir",
+                    "prix": 10.0,
+                    "stock": 35,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114249.jpg",
+                    "categorieId": 1,
+                    "id": 1,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:42:50.159526+02:00"
+                },
+                {
+                    "libelle": "Polo Haute Qualité Coton Colle Rayé Orange - Blanc",
+                    "prix": 20.0,
+                    "stock": 75,
+                    "image": "http://localhost:64781/uploads/articles/20200428_114148.jpg",
+                    "categorieId": 1,
+                    "id": 2,
+                    "dateSaisie": "2020-04-03T16:01:56",
+                    "dateModification": "2020-04-28T11:41:48.2413279+02:00"
+                }
+            ],
+            "id": 1,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T11:38:57.4886184+02:00"
+        },
+        "id": 3,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T11:40:43.7877271+02:00"
+    },
+    {
+        "libelle": "Longo Sandales Plates Pour Enfant - Noir",
+        "prix": 6.0,
+        "stock": 19,
+        "image": "http://localhost:64781/uploads/articles/20200428_120801.jpg",
+        "categorieId": 4,
+        "categorie": {
+            "libelle": "Chaussure",
+            "articles": [
+                {
+                    "libelle": "La Halle La Halle Chaussures Tennis à Lacets - Bleu",
+                    "prix": 30.0,
+                    "stock": 7,
+                    "image": "http://localhost:64781/uploads/articles/20200428_120924.jpg",
+                    "categorieId": 4,
+                    "id": 5,
+                    "dateSaisie": "2020-04-28T12:09:24.7491702+02:00",
+                    "dateModification": "2020-04-28T12:09:24.7491825+02:00"
+                }
+            ],
+            "id": 4,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-03T16:01:56"
+        },
+        "id": 4,
+        "dateSaisie": "2020-04-28T12:08:01.5495633+02:00",
+        "dateModification": "2020-04-28T12:08:01.5496455+02:00"
+    },
+    {
+        "libelle": "La Halle La Halle Chaussures Tennis à Lacets - Bleu",
+        "prix": 30.0,
+        "stock": 7,
+        "image": "http://localhost:64781/uploads/articles/20200428_120924.jpg",
+        "categorieId": 4,
+        "categorie": {
+            "libelle": "Chaussure",
+            "articles": [
+                {
+                    "libelle": "Longo Sandales Plates Pour Enfant - Noir",
+                    "prix": 6.0,
+                    "stock": 19,
+                    "image": "http://localhost:64781/uploads/articles/20200428_120801.jpg",
+                    "categorieId": 4,
+                    "id": 4,
+                    "dateSaisie": "2020-04-28T12:08:01.5495633+02:00",
+                    "dateModification": "2020-04-28T12:08:01.5496455+02:00"
+                }
+            ],
+            "id": 4,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-03T16:01:56"
+        },
+        "id": 5,
+        "dateSaisie": "2020-04-28T12:09:24.7491702+02:00",
+        "dateModification": "2020-04-28T12:09:24.7491825+02:00"
+    },
+    {
+        "libelle": "Q&Q Montre à Bracelet Femme – Analogique – Or",
+        "prix": 50.0,
+        "stock": 54,
+        "image": "http://localhost:64781/uploads/articles/20200428_121036.jpg",
+        "categorieId": 2,
+        "categorie": {
+            "libelle": "Montre",
+            "articles": [
+                {
+                    "libelle": "Q&Q Montre à Cadran Rond Unisexe - Violet",
+                    "prix": 75.0,
+                    "stock": 87,
+                    "image": "http://localhost:64781/uploads/articles/20200428_121225.jpg",
+                    "categorieId": 2,
+                    "id": 7,
+                    "dateSaisie": "2020-04-28T12:12:25.6886711+02:00",
+                    "dateModification": "2020-04-28T12:12:25.6886847+02:00"
+                }
+            ],
+            "id": 2,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T12:10:04.5162616+02:00"
+        },
+        "id": 6,
+        "dateSaisie": "2020-04-28T12:10:36.3299481+02:00",
+        "dateModification": "2020-04-28T12:10:36.3299629+02:00"
+    },
+    {
+        "libelle": "Q&Q Montre à Cadran Rond Unisexe - Violet",
+        "prix": 75.0,
+        "stock": 87,
+        "image": "http://localhost:64781/uploads/articles/20200428_121225.jpg",
+        "categorieId": 2,
+        "categorie": {
+            "libelle": "Montre",
+            "articles": [
+                {
+                    "libelle": "Q&Q Montre à Bracelet Femme – Analogique – Or",
+                    "prix": 50.0,
+                    "stock": 54,
+                    "image": "http://localhost:64781/uploads/articles/20200428_121036.jpg",
+                    "categorieId": 2,
+                    "id": 6,
+                    "dateSaisie": "2020-04-28T12:10:36.3299481+02:00",
+                    "dateModification": "2020-04-28T12:10:36.3299629+02:00"
+                }
+            ],
+            "id": 2,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T12:10:04.5162616+02:00"
+        },
+        "id": 7,
+        "dateSaisie": "2020-04-28T12:12:25.6886711+02:00",
+        "dateModification": "2020-04-28T12:12:25.6886847+02:00"
+    },
+    {
+        "libelle": "Ilux Machine à Café LX-774CM - 600W - 0,6L - Noir",
+        "prix": 100.0,
+        "stock": 56,
+        "image": "http://localhost:64781/uploads/articles/20200428_121410.jpg",
+        "categorieId": 3,
+        "categorie": {
+            "libelle": "Electromenager",
+            "articles": [],
+            "id": 3,
+            "dateSaisie": "2020-04-03T16:01:56",
+            "dateModification": "2020-04-28T12:13:49.4131751+02:00"
+        },
+        "id": 8,
+        "dateSaisie": "2020-04-28T12:14:10.4694692+02:00",
+        "dateModification": "2020-04-28T12:14:10.4694843+02:00"
+    }
 ]

@@ -5,7 +5,6 @@
     <div class="col">
         <div class="form-group">
             <input placeholder="Rechercher un article" @bind-value="Search" @bind-value:event="oninput" class="form-control" />
-            @*<SearchBox placeholder="Rechercher un article" SearchQueryChanged="" />*@
         </div>
     </div>
     <div class="col">
@@ -25,7 +24,7 @@
     {
         foreach (var article in @Articles)
         {
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a  class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@article.Libelle</h5>
                     <small> @article.DateSaisie</small>
@@ -36,7 +35,9 @@
                         <p class="mb-1"> Stock : @article.Stock</p>
                         <p class="mb-1"> Catégorie : @article.Categorie.Libelle</p>
                         <small class="text-muted">
-                            <button class="btn btn-primary"> Détails</button>
+                                <button class="btn btn-primary"
+                                  type="button"
+                                  @onclick="(e=>SelectArticle(article.Id))"> Détails</button>
                         </small>
                     </div>
                     <div class="col">

@@ -44,6 +44,18 @@ namespace NetCoreApp.Controllers.Api
             return Ok(result);
         }
 
+        [HttpGet("byName/{libelle}")]
+        [ProducesResponseType(typeof(Article), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(string libelle)
+        {
+            var result = await _articleService.GetArticleContainsLibelle(libelle);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

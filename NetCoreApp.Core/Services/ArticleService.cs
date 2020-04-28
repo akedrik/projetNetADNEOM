@@ -4,7 +4,6 @@ using NetCoreApp.Core.Interfaces.Repositories;
 using NetCoreApp.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetCoreApp.Core.Services
@@ -21,7 +20,7 @@ namespace NetCoreApp.Core.Services
         {
             var rowsCount = await _articleRepository.CountAsync();
             var articleAvecLeLibelle = _articleRepository.GetByLibelleAsync(article.Libelle);
-           
+
             if (articleAvecLeLibelle != null)
                 throw new RecordAlreadyExistException();
 
@@ -67,6 +66,11 @@ namespace NetCoreApp.Core.Services
         public async Task<Article> GetArticleById(int id)
         {
             return await _articleRepository.GetByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Article>> GetArticleContainsLibelle(string libelle)
+        {
+            return await _articleRepository.GetContainsLibelleAsync(libelle);
         }
 
         public async Task UpdateArticle(Article article)

@@ -46,5 +46,11 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
         {
             return _dbContext.Articles.Max(c => c.Id);
         }
+
+       public async Task<IEnumerable<Article>> GetContainsLibelleAsync(string libelle)
+        {
+            return await _dbContext.Articles.Include(a => a.Categorie).
+                           Where(c =>  c.Libelle.ToUpper().Contains(libelle.ToUpper())).ToListAsync();
+        }
     }
 }

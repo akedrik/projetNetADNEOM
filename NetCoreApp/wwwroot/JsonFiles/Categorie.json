@@ -1,52 +1,72 @@
 [
-  {
-    "Libelle": "Teeshirt",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Pantalon",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Maillot",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Chaussure",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Chaussette",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Chapeau",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Ballon",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "Sifflet",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "TV",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  },
-  {
-    "Libelle": "PC",
-    "DateSaisie": "2020-04-03 16:01:56",
-    "DateModification": "2020-04-03 16:01:56"
-  }
+    {
+        "libelle": "Polo",
+        "articles": null,
+        "id": 1,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T11:38:57.4886184+02:00"
+    },
+    {
+        "libelle": "Montre",
+        "articles": null,
+        "id": 2,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T12:10:04.5162616+02:00"
+    },
+    {
+        "libelle": "Electromenager",
+        "articles": null,
+        "id": 3,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-28T12:13:49.4131751+02:00"
+    },
+    {
+        "libelle": "Chaussure",
+        "articles": null,
+        "id": 4,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "Chaussette",
+        "articles": null,
+        "id": 5,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "Chapeau",
+        "articles": null,
+        "id": 6,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "Ballon",
+        "articles": null,
+        "id": 7,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "Sifflet",
+        "articles": null,
+        "id": 8,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "TV",
+        "articles": null,
+        "id": 9,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    },
+    {
+        "libelle": "PC",
+        "articles": null,
+        "id": 10,
+        "dateSaisie": "2020-04-03T16:01:56",
+        "dateModification": "2020-04-03T16:01:56"
+    }
 ]

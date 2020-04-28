@@ -55,6 +55,23 @@ namespace NetCoreApp.Services
             return article;
         }
 
+        public async Task<List<Article>> GetArticleContainsLibelle(string libelle)
+        {
+            List<Article> articles = new List<Article>();
+            var request = new HttpRequestMessage(HttpMethod.Get,
+           _configuration["ApiBaseUrl"] + "article/byName/" + libelle);
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                articles = JsonConvert.DeserializeObject<List<Core.Entities.Article>>(stringResponse);
+            }
+            return articles;
+        }
+
         public async Task<List<Article>> GetArticles()
         {
             List<Article> articles = new List<Article>();

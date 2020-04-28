@@ -10,6 +10,7 @@ namespace NetCoreApp.Core.Interfaces.Services.Pages
     public interface IArticlePageService
     {
         Task<List<Article>> GetArticles();
+        Task<List<Article>> GetArticleContainsLibelle(string libelle);
         Task DeleteArticle(int id);
         Task<Article> GetArticleById(int id);
         Task SaveFile(IFormFile FormFile, Article article);

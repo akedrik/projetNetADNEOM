@@ -63,7 +63,7 @@ namespace NetCoreApp.Pages.Article
                 Message = statut;
                 return Page();
             }
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Search");
         }
     }
 }
