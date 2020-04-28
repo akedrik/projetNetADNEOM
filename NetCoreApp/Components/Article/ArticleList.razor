@@ -1,11 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
 @inherits ArticleListBase;
 
-
 <div class="row">
     <div class="col">
         <div class="form-group">
             <input placeholder="Rechercher un article" @bind-value="Search" @bind-value:event="oninput" class="form-control" />
+            @*<SearchBox placeholder="Rechercher un article" SearchQueryChanged="" />*@
         </div>
     </div>
     <div class="col">
@@ -16,8 +16,8 @@
                 Rechercher
             </button>
         </div>
-        </div>
     </div>
+</div>
 
 <div class="list-group">
 
