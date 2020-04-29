@@ -1,0 +1,10 @@
+﻿@inherits ListCategorieBase;
+<div class="list-group">
+    @if (Categories != null)
+    {
+        foreach (var categorie in Categories)
+        {
+            <a class="list-group-item" @onclick="@(()=>SelectArticlesByCategorie(categorie.Id))"> @categorie.Libelle</a>
+        }
+    }
+</div>

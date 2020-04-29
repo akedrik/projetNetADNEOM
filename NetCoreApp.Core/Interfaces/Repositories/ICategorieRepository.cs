@@ -1,4 +1,5 @@
 ﻿using NetCoreApp.Core.Entities;
+using System.Collections.Generic;
 
 namespace NetCoreApp.Core.Interfaces.Repositories
 {
@@ -7,5 +8,6 @@ namespace NetCoreApp.Core.Interfaces.Repositories
         Categorie GetByLibelleAsync(string libelle);
         Categorie GetByLibelleWithNoIdAsync(int id, string libelle);
         int MaxId();
+        IEnumerable<Categorie> GetCategoriesInArticles();
     }
 }

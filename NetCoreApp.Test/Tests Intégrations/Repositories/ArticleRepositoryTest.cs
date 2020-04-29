@@ -30,6 +30,7 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
         {
             await _categorieRepository.AddAsync(new Core.Entities.Categorie(1, "Polo"));
             await _categorieRepository.AddAsync(new Core.Entities.Categorie(2, "TV"));
+            await _categorieRepository.AddAsync(new Core.Entities.Categorie(3, "Maillot"));
 
             await _articleRepository.AddAsync(new Core.Entities.Article{ Id=1, Libelle="Article 1", 
                 Prix=10, Stock=4, CategorieId=2, Image=""});
@@ -58,6 +59,9 @@ namespace NetCoreApp.Test.Tests_Intégrations.Repositories
             Assert.Equal(3, listArticles.Count);
             Assert.Equal("TV", listArticles[1].Categorie.Libelle);
             Assert.Equal("Polo", listArticles[2].Categorie.Libelle);
+
+            List<Core.Entities.Categorie> categories = _categorieRepository.GetCategoriesInArticles().ToList();
+            Assert.Equal(2, categories.Count);
         }
     }
 }

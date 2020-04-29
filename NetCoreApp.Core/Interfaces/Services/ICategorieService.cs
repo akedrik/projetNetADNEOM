@@ -11,5 +11,6 @@ namespace NetCoreApp.Core.Interfaces.Services
         Task DeleteCategorie(int id);
         Task<IEnumerable<Categorie>> GetAllCategories();
         Task<Categorie> GetCategorieById(int id);
+        Task<IEnumerable<Categorie>> GetCategoriesInArticles();
     }
 }

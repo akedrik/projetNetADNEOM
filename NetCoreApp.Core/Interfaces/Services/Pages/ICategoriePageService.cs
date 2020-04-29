@@ -10,5 +10,6 @@ namespace NetCoreApp.Core.Interfaces.Services.Pages
         Task DeleteCategorie(int id);
         Task<Categorie> GetCategorieById(int id);
         Task<string> SaveCategorie(int id,Categorie categorie);
+        Task<List<Categorie>> GetCategoriesInArticles();
     }
 }

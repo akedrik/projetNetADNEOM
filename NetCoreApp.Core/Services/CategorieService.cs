@@ -90,5 +90,11 @@ namespace NetCoreApp.Core.Services
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task<IEnumerable<Categorie>> GetCategoriesInArticles()
+        {
+            await Task.CompletedTask;
+            return  _categorieRepository.GetCategoriesInArticles();
+        }
     }
 }

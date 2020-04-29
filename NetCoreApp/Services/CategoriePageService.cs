@@ -61,6 +61,23 @@ namespace NetCoreApp.Services
             return categories;
         }
 
+        public async Task<List<Categorie>> GetCategoriesInArticles()
+        {
+            List<Categorie> categories = new List<Categorie>();
+            var request = new HttpRequestMessage(HttpMethod.Get,
+           _configuration["ApiBaseUrl"] + "categorie/inArticle");
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                categories = JsonConvert.DeserializeObject<List<Core.Entities.Categorie>>(stringResponse);
+            }
+            return categories;
+        }
+
         public async Task<string> SaveCategorie(int id, Categorie categorie)
         {
             var message = "";

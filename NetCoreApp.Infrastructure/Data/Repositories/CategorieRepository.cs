@@ -1,5 +1,7 @@
-﻿using NetCoreApp.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using NetCoreApp.Core.Entities;
 using NetCoreApp.Core.Interfaces.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NetCoreApp.Infrastructure.Data.Repositories
@@ -23,6 +25,11 @@ namespace NetCoreApp.Infrastructure.Data.Repositories
             return _dbContext.Categories.
                 Where(c => c.Libelle == libelle &&
                         c.Id != id).FirstOrDefault();
+        }
+
+        public IEnumerable<Categorie> GetCategoriesInArticles()
+        {
+            return _dbContext.Categories.Include(c => c.Articles).Where(c=>c.Articles.Count!=0);
         }
 
         public int MaxId()

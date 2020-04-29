@@ -31,6 +31,17 @@ namespace NetCoreApp.Controllers.Api
             return Ok(result);
         }
 
+        [HttpGet ("inArticle")]
+        [ProducesResponseType(typeof(IEnumerable<Categorie>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCategoriesInArticles()
+        {
+            var result = await _categorieService.GetCategoriesInArticles();
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Categorie), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
